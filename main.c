@@ -22,15 +22,6 @@ int main (int argc, char *argv[])
 	int tab[5] = {909051, 1998, 4519, 8591, 1949};
 	SLinkList *new = LinkList_create(printer, NULL);
 	int *value;
-	SDL_Surface *screen;
-	
-	SDL_Init (SDL_INIT_EVERYTHING);
-	
-	screen = SDL_SetVideoMode( 640, 480, 32, SDL_SWSURFACE );
-	if (screen == NULL) {
-		fprintf(stderr, "Error\n");
-		exit (EXIT_FAILURE);
-	}
 	
 	LinkList_add(new, tab);
 	LinkList_add(new, tab+1);
@@ -49,12 +40,7 @@ int main (int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 	
-	SDL_Flip( screen );
-	SDL_Delay( 2000 );
-	
 	LinkList_destroy(new);
-	
-	SDL_Quit ();
 	
 	(void) argc;
 	(void) argv;
