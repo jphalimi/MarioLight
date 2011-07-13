@@ -61,6 +61,9 @@ void *LinkList_getElementAt (const SLinkList *ll, unsigned idX) {
     
     if (ll != NULL) {
         SLinkListNode *tmp = ll->head;
+        if (tmp == NULL) { /* In case of empty list */
+            return NULL;
+        }
         for (i = 0; i < idX; i++) {
             tmp = tmp->next;
             /* If tmp == NULL, then it's because we didn't reach our idX yet
@@ -107,7 +110,6 @@ void LinkList_print (const SLinkList *ll) {
     if (ll != NULL && ll->print != NULL) {
         tmp = ll->head;
         while (tmp != NULL) {
-            fprintf(stderr, "test\n");
             ll->print (tmp->data);
             tmp = tmp->next;
         }

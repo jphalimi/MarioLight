@@ -10,11 +10,12 @@
 #include <stdlib.h>
 #include <SDL/SDL.h>
 #include "toolkit/linklist.h"
+#include "toolkit/log.h"
 
 void printer (void *data) {
 	int value = *((int*)data);
 	
-	printf("Value : %d\n", value);
+	Log_output(1, "Value : %d\n", value);
 }
 
 int main (int argc, char *argv[])
@@ -22,6 +23,9 @@ int main (int argc, char *argv[])
 	int tab[5] = {909051, 1998, 4519, 8591, 1949};
 	SLinkList *new = LinkList_create(printer, NULL);
 	int *value;
+	
+	Log_setOutput(stderr);
+	Log_setVerbosity(3);
 	
 	LinkList_add(new, tab);
 	LinkList_add(new, tab+1);
@@ -34,11 +38,16 @@ int main (int argc, char *argv[])
 	value = LinkList_getElementAt(new, 4);
 	
 	if (value != NULL) {
-		fprintf(stderr, "LinkList size = %d\n", *value);
+		Log_output(-1, "LinkList element at 4 = %d\n", *value);
 	} else {
-		fprintf(stderr, "LinkList size is invalid\n");
+		Log_output (-1, "LinkList size is invalid\n");
 		return EXIT_FAILURE;
 	}
+	
+	Log_output(2, "Test with verbosity = 2\n");
+	Log_output(4, "Test with verbosity = 4\n");
+	fprintf(stderr, "Test value : %d\n", 89);
+	Log_output(1, "Test value : %d\n", 89);
 	
 	LinkList_destroy(new);
 	
