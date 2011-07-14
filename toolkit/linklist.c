@@ -102,6 +102,7 @@ void LinkList_destroy (SLinkList *ll) {
             tmp = LinkListNode_destroy (tmp, ll->destroy);
         }
     }
+    free(ll), ll = NULL;
 }
 
 void LinkList_print (const SLinkList *ll) {
