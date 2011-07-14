@@ -8,9 +8,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL/SDL.h>
 #include "toolkit/linklist.h"
 #include "toolkit/log.h"
+#include "game/config/config.h"
 
 void printer (void *data) {
 	int value = *((int*)data);
@@ -26,6 +26,8 @@ int main (int argc, char *argv[])
 	
 	Log_setOutput(stderr);
 	Log_setVerbosity(3);
+	
+	SConfig *config = Config_create();
 	
 	LinkList_add(new, tab);
 	LinkList_add(new, tab+1);
@@ -48,6 +50,12 @@ int main (int argc, char *argv[])
 	Log_output(4, "Test with verbosity = 4\n");
 	fprintf(stderr, "Test value : %d\n", 89);
 	Log_output(1, "Test value : %d\n", 89);
+	
+	Log_output(1, "Game name : %s\n", Config_getGameName(config));
+	Log_output(1, "Game window width : %u\n", Config_getWindowWidth(config));
+	Log_output(1, "Game window height : %u\n", Config_getWindowHeight(config));
+	
+	Config_destroy(config);
 	
 	LinkList_destroy(new);
 	

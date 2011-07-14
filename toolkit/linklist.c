@@ -12,7 +12,7 @@
 #include <assert.h>
 #include "linklist.h"
 
-SLinkListNode *LinkListNode_create (void *data, SLinkListNode *next) {
+inline SLinkListNode *LinkListNode_create (void *data, SLinkListNode *next) {
     SLinkListNode *lln = malloc (sizeof(*lln));
     assert (lln != NULL);
     memset(lln, 0, sizeof(*lln));
@@ -23,7 +23,7 @@ SLinkListNode *LinkListNode_create (void *data, SLinkListNode *next) {
     return lln;
 }
 
-SLinkListNode *LinkListNode_destroy (SLinkListNode *lln, const linkList_fct destroy) {
+inline SLinkListNode *LinkListNode_destroy (SLinkListNode *lln, const linkList_fct destroy) {
     SLinkListNode *next = NULL;
     
     if (lln != NULL) {

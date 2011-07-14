@@ -31,7 +31,7 @@ unsigned LinkList_getSize (const SLinkList *ll);
 void LinkList_print (const SLinkList *ll);
 void LinkList_destroy (SLinkList *ll);
 
-SLinkListNode *LinkListNode_init (void *data, SLinkListNode *next);
+SLinkListNode *LinkListNode_create (void *data, SLinkListNode *next);
 SLinkListNode *LinkListNode_destroy (SLinkListNode *lln, const linkList_fct destroy);
 
 #endif

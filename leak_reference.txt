@@ -1,0 +1,208 @@
+==45658== Memcheck, a memory error detector
+==45658== Copyright (C) 2002-2010, and GNU GPL'd, by Julian Seward et al.
+==45658== Using Valgrind-3.7.0.SVN and LibVEX; rerun with -h for copyright info
+==45658== Command: ./marioLight
+==45658== 
+Value : 1949
+Value : 8591
+Value : 4519
+Value : 1998
+Value : 909051
+LinkList element at 4 = 909051
+Test with verbosity = 2
+Test value : 89
+Test value : 89
+Game name : MarioLight
+Game window width : 640
+Game window height : 480
+==45658== 
+==45658== HEAP SUMMARY:
+==45658==     in use at exit: 1,344,249 bytes in 5,617 blocks
+==45658==   total heap usage: 12,861 allocs, 7,244 frees, 4,541,095 bytes allocated
+==45658== 
+==45658== 16 bytes in 1 blocks are definitely lost in loss record 430 of 3,535
+==45658==    at 0xE3A5: malloc (vg_replace_malloc.c:235)
+==45658==    by 0x1D700CF: __cxa_get_globals (in /usr/lib/libstdc++.6.0.9.dylib)
+==45658==    by 0x1D6FDCD: __cxa_allocate_exception (in /usr/lib/libstdc++.6.0.9.dylib)
+==45658==    by 0x29AFAF7: CMMThrowExceptionOnError(CMMErr) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B53F6: CMMCurveTag::CMMCurveTag(icTagSignature, unsigned char const*, unsigned int, CMMMemMgr&, CMMTag*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B7858: CMMParaCurveTag::CMMParaCurveTag(icTagSignature, unsigned char const*, unsigned int, CMMMemMgr&, CMMTag*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C52BE: CMMProfile::MakeTag(icTagSignature, unsigned char const*, unsigned long, CMMTag*, CMMTagDataAccess*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C5622: CMMProfile::GetTag(icTagSignature) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C70B0: CMMProfile::GetCurveTag(icTagSignature, icTagSignature) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C7101: CMMProfile::InnerGetMatrixTags(CMMXYZTag* (&) [3], CMMCurveTag* (&) [3]) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C71D1: CMMMatrixDisplayProfile::GetMatrixTags(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4D6: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 24 bytes in 1 blocks are definitely lost in loss record 702 of 3,535
+==45658==    at 0xE3A5: malloc (vg_replace_malloc.c:235)
+==45658==    by 0x5504E38: StoreEventParam(EventPriv*, unsigned int, unsigned int, unsigned char, unsigned long, void const*, PromiseInfo*) (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0x5504CA8: SetEventParameter (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0x552EDEA: CreateHighLevelEvent (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0x395F87F: enqueueHighLevelEvent(AEEventImpl*) (in /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE)
+==45658==    by 0x395F53B: sendSimpleEventToSelf (in /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE)
+==45658==    by 0x395F434: aeInitializeFromHIToolbox (in /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE)
+==45658==    by 0x552ECEB: INIT_AppleEvents (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0x552E8DC: _FirstEventTime (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0x552E630: RunCurrentEventLoopInMode (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0x552E4B0: ReceiveNextEventCommon (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0x552E40B: BlockUntilNextEventMatchingListInMode (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658== 
+==45658== 96 bytes in 1 blocks are possibly lost in loss record 2,415 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x29B2D36: CMMMemMgr::New(unsigned long) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B2D8C: CMMBase::NewInternal(unsigned long, CMMMemMgr&, char const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B4E97: createSRGBGammaTableAndInfo() (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x29BF936: CMMCurveTag::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, CMMLutRangeMapping, double) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29ACF67: CMMRGBCurves::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, unsigned int) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C13AE: ConversionManager::AddMatrixConv(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4F9: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF6C2: CMMDevLinkProfileMaker::MakeCMMDevLinkProfileInner(CMMProfileInfoContainer*, icTagTypeSignature) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF85C: DoInitializeLinkProfile (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF932: AppleCMMInitializeLinkProfile (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 96 bytes in 1 blocks are possibly lost in loss record 2,416 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x29B2D36: CMMMemMgr::New(unsigned long) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B2D8C: CMMBase::NewInternal(unsigned long, CMMMemMgr&, char const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B4EDA: createSRGBGammaTableAndInfo() (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x29BF936: CMMCurveTag::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, CMMLutRangeMapping, double) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29ACF67: CMMRGBCurves::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, unsigned int) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C13AE: ConversionManager::AddMatrixConv(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4F9: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF6C2: CMMDevLinkProfileMaker::MakeCMMDevLinkProfileInner(CMMProfileInfoContainer*, icTagTypeSignature) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF85C: DoInitializeLinkProfile (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF932: AppleCMMInitializeLinkProfile (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 96 bytes in 1 blocks are possibly lost in loss record 2,417 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x29B2D36: CMMMemMgr::New(unsigned long) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B2D8C: CMMBase::NewInternal(unsigned long, CMMMemMgr&, char const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B4F25: createSRGBGammaTableAndInfo() (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x29BF936: CMMCurveTag::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, CMMLutRangeMapping, double) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29ACF67: CMMRGBCurves::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, unsigned int) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C13AE: ConversionManager::AddMatrixConv(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4F9: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF6C2: CMMDevLinkProfileMaker::MakeCMMDevLinkProfileInner(CMMProfileInfoContainer*, icTagTypeSignature) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF85C: DoInitializeLinkProfile (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF932: AppleCMMInitializeLinkProfile (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 96 bytes in 1 blocks are possibly lost in loss record 2,418 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x29B2D36: CMMMemMgr::New(unsigned long) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B2D8C: CMMBase::NewInternal(unsigned long, CMMMemMgr&, char const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B4F82: createSRGBGammaTableAndInfo() (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x29BF936: CMMCurveTag::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, CMMLutRangeMapping, double) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29ACF67: CMMRGBCurves::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, unsigned int) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C13AE: ConversionManager::AddMatrixConv(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4F9: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF6C2: CMMDevLinkProfileMaker::MakeCMMDevLinkProfileInner(CMMProfileInfoContainer*, icTagTypeSignature) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF85C: DoInitializeLinkProfile (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CF932: AppleCMMInitializeLinkProfile (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 96 bytes in 1 blocks are possibly lost in loss record 2,419 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x29B2D36: CMMMemMgr::New(unsigned long) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B2D8C: CMMBase::NewInternal(unsigned long, CMMMemMgr&, char const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B508E: createOnePointEightGammaTableAndInfo() (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x29BF8B7: CMMCurveTag::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, CMMLutRangeMapping, double) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29ACF67: CMMRGBCurves::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, unsigned int) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C13AE: ConversionManager::AddMatrixConv(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4F9: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CFC34: DoInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29D0358: AppleCMMInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29FDD07: ColorSyncCMMInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 96 bytes in 1 blocks are possibly lost in loss record 2,420 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x29B2D36: CMMMemMgr::New(unsigned long) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B2D8C: CMMBase::NewInternal(unsigned long, CMMMemMgr&, char const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B50D1: createOnePointEightGammaTableAndInfo() (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x29BF8B7: CMMCurveTag::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, CMMLutRangeMapping, double) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29ACF67: CMMRGBCurves::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, unsigned int) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C13AE: ConversionManager::AddMatrixConv(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4F9: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CFC34: DoInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29D0358: AppleCMMInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29FDD07: ColorSyncCMMInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 96 bytes in 1 blocks are possibly lost in loss record 2,421 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x29B2D36: CMMMemMgr::New(unsigned long) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B2D8C: CMMBase::NewInternal(unsigned long, CMMMemMgr&, char const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B5115: createOnePointEightGammaTableAndInfo() (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x29BF8B7: CMMCurveTag::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, CMMLutRangeMapping, double) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29ACF67: CMMRGBCurves::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, unsigned int) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C13AE: ConversionManager::AddMatrixConv(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4F9: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CFC34: DoInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29D0358: AppleCMMInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29FDD07: ColorSyncCMMInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 96 bytes in 1 blocks are possibly lost in loss record 2,422 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x29B2D36: CMMMemMgr::New(unsigned long) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B2D8C: CMMBase::NewInternal(unsigned long, CMMMemMgr&, char const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29B5148: createOnePointEightGammaTableAndInfo() (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x29BF8B7: CMMCurveTag::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, CMMLutRangeMapping, double) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29ACF67: CMMRGBCurves::MakeLutTable(CMMFloatLutInfo*, CMMMemMgr&, unsigned int) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29C13AE: ConversionManager::AddMatrixConv(CMMXYZTag* (&) [3], CMMRGBCurves&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CE4F9: ConversionManager::MakeConversionSequence(CMMProfileInfoContainer*, CMMColorConversionInfo*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29CFC34: DoInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29D0358: AppleCMMInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658==    by 0x29FDD07: ColorSyncCMMInitializeTransform (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync)
+==45658== 
+==45658== 512 bytes in 1 blocks are possibly lost in loss record 3,330 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x1E04FE0: CGSRegisterNotifyProc (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics)
+==45658==    by 0x1E04F3B: _CGSConnectionInitialize (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics)
+==45658==    by 0x1E04E38: cg_setup (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics)
+==45658==    by 0xC1379: pthread_once (in /usr/lib/libSystem.B.dylib)
+==45658==    by 0x1E0915F: _CGSDefaultConnection (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics)
+==45658==    by 0x2A9BAA7: _RegisterApplication (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices)
+==45658==    by 0x2A9A736: GetCurrentProcess (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices)
+==45658==    by 0x5502334: GetSystemUIMode (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0x55022D1: IsMenuBarVisible (in /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox)
+==45658==    by 0xA55AAD: _NSInitializeAppContext (in /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit)
+==45658==    by 0xA5548D: -[NSApplication init] (in /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit)
+==45658== 
+==45658== 512 bytes in 1 blocks are possibly lost in loss record 3,331 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x1E04FE0: CGSRegisterNotifyProc (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics)
+==45658==    by 0xA55676: -[NSApplication init] (in /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit)
+==45658==    by 0xA550F9: +[NSApplication sharedApplication] (in /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit)
+==45658==    by 0x100001D7D: main (in ./marioLight)
+==45658== 
+==45658== 3,576 bytes in 2 blocks are possibly lost in loss record 3,485 of 3,535
+==45658==    at 0xD56E: calloc (vg_replace_malloc.c:432)
+==45658==    by 0x741AA94: AllocRawMemory(unsigned int, unsigned char) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib)
+==45658==    by 0x741B8E6: ScalerNewBlock(memoryContext*, int, int, void*, unsigned char, unsigned char) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib)
+==45658==    by 0x741B036: CreateScalerFontBlock(fsg_SplineKey*, memoryContext*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib)
+==45658==    by 0x7431BB3: AssureScalerFontBlock(fsg_SplineKey*, memoryContext*, fontBlockCacheNode*&) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib)
+==45658==    by 0x741AEE2: AssureStrikeBlocks(fsg_SplineKey*, memoryContext*, cacheStrike*, TStrikeDescription const*) (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib)
+==45658==    by 0x741A524: TTGetStrikeSpecs (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libTrueTypeScaler.dylib)
+==45658==    by 0x4FD2A7C: TConcreteFontScaler::GetFontMetrics() const (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib)
+==45658==    by 0x4FD28BC: TConcreteFontScaler::GetFontInfo(FPFontInfo*) const (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib)
+==45658==    by 0x4FD20EA: TFPFont::GetVMetrics(FPFontVMetrics&) const (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib)
+==45658==    by 0x4FD2034: FPFontGetVMetrics (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontParser.dylib)
+==45658==    by 0x740CA08: get_font_info (in /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCGXType.A.dylib)
+==45658== 
+==45658== LEAK SUMMARY:
+==45658==    definitely lost: 40 bytes in 2 blocks
+==45658==    indirectly lost: 0 bytes in 0 blocks
+==45658==      possibly lost: 5,368 bytes in 12 blocks
+==45658==    still reachable: 1,338,753 bytes in 5,602 blocks
+==45658==         suppressed: 88 bytes in 1 blocks
+==45658== Reachable blocks (those to which a pointer was found) are not shown.
+==45658== To see them, rerun with: --leak-check=full --show-reachable=yes
+==45658== 
+==45658== For counts of detected and suppressed errors, rerun with: -v
+==45658== ERROR SUMMARY: 13 errors from 13 contexts (suppressed: 1 from 1)
