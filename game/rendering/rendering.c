@@ -75,6 +75,13 @@ void Rendering_addSurface (SRendering *rendering, int idX, int idY,
     }
 }
 
+void Rendering_render (SRendering *rendering) {
+    if (SDL_Flip(rendering->screen) != 0) {
+        Log_output(1, "Error: Cannot flip screen : %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+}
+
 void Rendering_destroy (SRendering *rendering) {
     SDL_Quit();
     free(rendering), rendering = NULL;
