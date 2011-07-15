@@ -23,6 +23,8 @@ int main (int argc, char *argv[])
 {
 	SConfig *config;
 	SRendering *rendering;
+	SRenderingSurface *mario;
+	unsigned i = 0;
 	
 	/* Log setup */
 	Log_setOutput(stderr);
@@ -33,6 +35,17 @@ int main (int argc, char *argv[])
 	
 	/* Rendering setup */
 	rendering = Rendering_create(config);
+	
+	mario = Rendering_loadImage("game/images/mario.bmp");
+	
+	while (i < 200) {
+		Rendering_addSurface(rendering, i, 0, mario);
+		Rendering_render (rendering);
+		SDL_Delay(20);
+		i++;
+	}
+	
+	SDL_Delay(2000);
 	
 	/* Rendering delete */
 	Rendering_destroy(rendering);

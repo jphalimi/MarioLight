@@ -24,16 +24,17 @@ SRendering *Rendering_create (const SConfig *config) {
         exit (EXIT_FAILURE);
     }
     
+    SDL_WM_SetCaption(Config_getGameName(config), NULL);
+    
     rendering->screen = SDL_SetVideoMode( Config_getWindowWidth(config),
                                Config_getWindowHeight(config),
                                32,
                                SDL_HWSURFACE | SDL_DOUBLEBUF );
+    
     if (rendering->screen == NULL) {
         Log_output (1, "Error: Cannot set SDL video mode : %s\n", SDL_GetError());
         exit (EXIT_FAILURE);
     }
-    
-    SDL_WM_SetCaption(Config_getGameName(config), NULL);
     
     return rendering;
 }
@@ -60,16 +61,16 @@ SRenderingSurface *Rendering_loadImage (const char *fileName) {
 }
 
 void Rendering_addSurface (SRendering *rendering, int idX, int idY,
-                           SRenderingSurface *dest) {
+                           SRenderingSurface *surf) {
     SDL_Rect rect;
     assert(rendering != NULL);
     assert(rendering->screen != NULL);
-    assert(dest != NULL);
+    assert(surf != NULL);
     
     rect.x = idX;
     rect.y = idY;
     
-    if (SDL_BlitSurface(rendering->screen, NULL, dest, &rect) < 0) {
+    if (SDL_BlitSurface(surf, NULL, rendering->screen, &rect) < 0) {
         Log_output(1, "Error: Cannot blit surface to screen : %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
