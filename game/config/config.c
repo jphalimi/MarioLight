@@ -8,12 +8,14 @@
 
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include <SDL/SDL.h>
 #include "config.h"
 
 SConfig *Config_create (void) {
     SConfig *config = malloc(sizeof(*config));
     assert(config != NULL);
+    memset(config, 0, sizeof(*config));
     
     Config_setWindowWidth(config, 640);
     Config_setWindowHeight(config, 480);

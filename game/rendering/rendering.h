@@ -10,9 +10,19 @@
 #define H_RENDERING
 
 #include <SDL/SDL.h>
+#include "../config/config.h"
+
+/* Engine library overlay */
+typedef SDL_Surface SRenderingSurface;
 
 typedef struct sRendering {
-    SDL_Surface *screen;
+    SRenderingSurface *screen;
 } SRendering;
+
+SRendering *Rendering_create (const SConfig *config);
+SRenderingSurface *Rendering_loadImage (const char *fileName);
+void Rendering_addSurface (SRendering *rendering, int idX, int idY, SRenderingSurface *dest);
+void Render_render (SRendering *rendering);
+void Rendering_destroy (SRendering *rendering);
 
 #endif
