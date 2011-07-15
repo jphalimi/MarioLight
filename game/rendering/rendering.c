@@ -59,6 +59,22 @@ SRenderingSurface *Rendering_loadImage (const char *fileName) {
     return optimized;
 }
 
+void Rendering_addSurface (SRendering *rendering, int idX, int idY,
+                           SRenderingSurface *dest) {
+    SDL_Rect rect;
+    assert(rendering != NULL);
+    assert(rendering->screen != NULL);
+    assert(dest != NULL);
+    
+    rect.x = idX;
+    rect.y = idY;
+    
+    if (SDL_BlitSurface(rendering->screen, NULL, dest, &rect) < 0) {
+        Log_output(1, "Error: Cannot blit surface to screen : %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+}
+
 void Rendering_destroy (SRendering *rendering) {
     SDL_Quit();
     free(rendering), rendering = NULL;
