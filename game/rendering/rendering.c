@@ -83,6 +83,13 @@ void Rendering_render (SRendering *rendering) {
     }
 }
 
+void Rendering_resetScreen (void) {
+    if (SDL_FillRect(SDL_GetVideoSurface(), NULL, 0) != 0) {
+        Log_output(1, "Error: Cannot reset screen : %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+}
+
 void Rendering_destroy (SRendering *rendering) {
     SDL_Quit();
     free(rendering), rendering = NULL;

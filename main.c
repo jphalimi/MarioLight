@@ -39,6 +39,7 @@ int main (int argc, char *argv[])
 	mario = Rendering_loadImage("game/images/mario.bmp");
 	
 	while (i < 200) {
+		Rendering_resetScreen();
 		Rendering_addSurface(rendering, i, 0, mario);
 		Rendering_render (rendering);
 		SDL_Delay(20);
