@@ -13,6 +13,7 @@
 #include "game/config/config.h"
 #include "game/rendering/rendering.h"
 #include "game/character/character.h"
+#include "game/time/time.h"
 
 void printer (void *data) {
 	int value = *((int*)data);
@@ -25,7 +26,8 @@ int main (int argc, char *argv[])
 	SConfig *config;
 	SRendering *rendering;
 	SCharacter *mario;
-	unsigned i = 0;
+	unsigned i = 0, j = 0;
+	uint32_t time;
 	
 	/* Log setup */
 	Log_setOutput(stderr);
@@ -38,11 +40,16 @@ int main (int argc, char *argv[])
 	rendering = Rendering_create(config);
 	
 	/* Character setup */
-	mario = Character_create("Mario", 1, "game/images/mario", 20, 2.5, 2);
+	mario = Character_create("Mario", 2, "game/images/mario", 250, 2.5, 2);
 	
+	time = Time_getTicks();
 	while (i < 200) {
 		Rendering_resetScreen();
-		Rendering_addSurface(rendering, i, 0, Character_getSprite(mario, 0));
+		Rendering_addSurface(rendering, i, 0, Character_getSprite(mario, j%2));
+		if (Time_getTicks() - time > Character_getSpriteDuration(mario)) {
+			j++;
+			time = Time_getTicks();
+		}
 		Rendering_render (rendering);
 		SDL_Delay(20);
 		i++;

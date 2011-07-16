@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=`sdl-config --cflags` `sdl-config --libs` -lSDL_image -g -Wall -Wextra -O3
 EXE=marioLight
-SRC=main.c toolkit/linklist.c toolkit/log.c game/rendering/rendering.c game/config/config.c game/character/character.c
+SRC=main.c toolkit/linklist.c toolkit/log.c game/rendering/rendering.c game/config/config.c game/character/character.c game/time/time.c
 
 all: $(EXE)
 

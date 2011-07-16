@@ -14,7 +14,7 @@
 #include "../../toolkit/log.h"
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
-                              const char *sprites_folder, float sprite_duration,
+                              const char *sprites_folder, uint32_t sprite_duration,
                               float max_speed, float acceleration) {
     SCharacter *character = malloc(sizeof(*character));
     assert(character != NULL);
@@ -77,7 +77,7 @@ void Character_setSprites (SCharacter *character, unsigned nb_sprites,
     
     /* Fetch and store data */
     for (i = 0; i < nb_sprites; ++i) {
-        snprintf(spriteFileNameBuf, STRBUF_MAXLEN, "%s/%d.gif", sprites_folder, i);
+        snprintf(spriteFileNameBuf, STRBUF_MAXLEN, "%s/%d.png", sprites_folder, i);
         Log_output(1, "Loading file \"%s\"... ", spriteFileNameBuf);
         character->spriteTab[i] = Rendering_loadImage(spriteFileNameBuf);
         Log_output(1, "done\n");
@@ -106,12 +106,12 @@ unsigned Character_getCurrentSprite (const SCharacter *character) {
     return character->currentSprite;
 }
 
-void Character_setSpriteDuration (SCharacter *character, float duration) {
+void Character_setSpriteDuration (SCharacter *character, uint32_t duration) {
     assert(character != NULL);
     character->spriteDuration = duration;
 }
 
-float Character_getSpriteDuration (const SCharacter *character) {
+uint32_t Character_getSpriteDuration (const SCharacter *character) {
     assert(character != NULL);
     return character->spriteDuration;
 }
