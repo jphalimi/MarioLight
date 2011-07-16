@@ -25,8 +25,8 @@ int main (int argc, char *argv[])
 {
 	SConfig *config;
 	SRendering *rendering;
+	SDL_Event e;
 	SCharacter *mario;
-	unsigned i = 0;
 	uint32_t time;
 	
 	/* Log setup */
@@ -43,7 +43,10 @@ int main (int argc, char *argv[])
 	mario = Character_create("Mario", 2, "game/images/mario", 300, 2.0, 0.1, 0.4);
 	
 	time = Time_getTicks();
-	while (i < 500) {
+	while (e.key.keysym.sym != SDLK_ESCAPE) {
+		/* Input detection */
+		SDL_PollEvent(&e);
+		
 		/* Reset screen */
 		Rendering_resetScreen();
 		
@@ -61,7 +64,7 @@ int main (int argc, char *argv[])
 		Rendering_render (rendering);
 		
 		/* Small pause */
-		i++;
+		SDL_Delay(1);
 	}
 	
 	SDL_Delay(200);

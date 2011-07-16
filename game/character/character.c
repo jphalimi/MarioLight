@@ -199,6 +199,7 @@ void Character_updateSprite (SCharacter *character) {
     }
     
     character->x += character->speed;
+    character->x = (int)(character->x)%(SDL_GetVideoSurface()->w);
     
     if (time_diff > character->spriteDuration) {
         character->currentSprite++;
