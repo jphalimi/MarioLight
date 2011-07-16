@@ -60,6 +60,10 @@ SRenderingSurface *Rendering_loadImage (const char *fileName) {
     return optimized;
 }
 
+void Rendering_freeSurface (SRenderingSurface *surf) {
+    SDL_FreeSurface(surf);
+}
+
 void Rendering_addSurface (SRendering *rendering, int idX, int idY,
                            SRenderingSurface *surf) {
     SDL_Rect rect;

@@ -21,6 +21,7 @@ typedef struct sRendering {
 
 SRendering *Rendering_create (const SConfig *config);
 SRenderingSurface *Rendering_loadImage (const char *fileName);
+void Rendering_freeSurface (SRenderingSurface *surf);
 void Rendering_addSurface (SRendering *rendering, int idX, int idY, SRenderingSurface *surf);
 void Rendering_render (SRendering *rendering);
 void Rendering_resetScreen (void);
