@@ -77,7 +77,7 @@ void Character_setSprites (SCharacter *character, unsigned nb_sprites,
     
     /* Fetch and store data */
     for (i = 0; i < nb_sprites; ++i) {
-        snprintf(spriteFileNameBuf, STRBUF_MAXLEN, "%s/%d.bmp", sprites_folder, i);
+        snprintf(spriteFileNameBuf, STRBUF_MAXLEN, "%s/%d.gif", sprites_folder, i);
         Log_output(1, "Loading file \"%s\"... ", spriteFileNameBuf);
         character->spriteTab[i] = Rendering_loadImage(spriteFileNameBuf);
         Log_output(1, "done\n");

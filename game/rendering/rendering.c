@@ -8,6 +8,8 @@
 
 #include <stdlib.h>
 #include <assert.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 #include "../config/config.h"
 #include "../../toolkit/log.h"
 #include "rendering.h"
@@ -44,7 +46,7 @@ SRenderingSurface *Rendering_loadImage (const char *fileName) {
     
     assert(fileName != NULL);
     
-    first = SDL_LoadBMP(fileName);
+    first = IMG_Load(fileName);
     if (first == NULL) {
         Log_output(1, "Error: Failed to load image \"%s\" : %s\n", fileName, SDL_GetError());
         exit(EXIT_FAILURE);
