@@ -26,7 +26,7 @@ int main (int argc, char *argv[])
 	SConfig *config;
 	SRendering *rendering;
 	SCharacter *mario;
-	unsigned i = 0, j = 0;
+	unsigned i = 0;
 	uint32_t time;
 	
 	/* Log setup */
@@ -40,22 +40,31 @@ int main (int argc, char *argv[])
 	rendering = Rendering_create(config);
 	
 	/* Character setup */
-	mario = Character_create("Mario", 2, "game/images/mario", 250, 2.5, 2);
+	mario = Character_create("Mario", 2, "game/images/mario", 300, 2.0, 0.1, 0.4);
 	
 	time = Time_getTicks();
-	while (i < 200) {
+	while (i < 500) {
+		/* Reset screen */
 		Rendering_resetScreen();
-		Rendering_addSurface(rendering, i, 0, Character_getSprite(mario, j%2));
-		if (Time_getTicks() - time > Character_getSpriteDuration(mario)) {
-			j++;
+		
+		/* Update mario sprite */
+		if (Time_getTicks()-time > 17) { /* 1/60 (FPS) = 0.1666666s = 17ms */
+			Character_updateSprite(mario);
 			time = Time_getTicks();
 		}
+		
+		/* Blitting surfaces and rendering */
+		Rendering_addSurface(rendering,
+							 Character_getX(mario),
+							 Character_getY(mario),
+							 Character_getCurrentSprite(mario));
 		Rendering_render (rendering);
-		SDL_Delay(20);
+		
+		/* Small pause */
 		i++;
 	}
 	
-	SDL_Delay(2000);
+	SDL_Delay(200);
 	
 	/* Character delete */
 	Character_destroy(mario);

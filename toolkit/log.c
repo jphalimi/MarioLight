@@ -30,7 +30,7 @@ int Log_output (int verbosity, const char *fmt, ...) {
     
     va_start(va, fmt);
     /* va_arg() is going to call the argument followed by fmt */
-    res = fprintf(m_log.fd, fmt, va_arg(va, char*));
+    res = vfprintf(m_log.fd, fmt, va);
     va_end(va);
     
     return res;

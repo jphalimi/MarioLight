@@ -12,22 +12,27 @@
 #include <sys/stat.h>
 #include "character.h"
 #include "../../toolkit/log.h"
+#include "../time/time.h"
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
                               const char *sprites_folder, uint32_t sprite_duration,
-                              float max_speed, float acceleration) {
+                              float max_speed, float acceleration, float speed) {
     SCharacter *character = malloc(sizeof(*character));
     assert(character != NULL);
     memset(character, 0, sizeof(*character));
     
     /* Set struct variables */
     Character_setSprites(character, nb_sprites, sprites_folder);
+    Character_setX(character, 0);
+    Character_setY(character, 0);
     Character_setNbSprites(character, nb_sprites);
     Character_setName(character, name);
     Character_setSpriteDuration(character, sprite_duration);
     Character_setMaxSpeed(character, max_speed);
     Character_setAcceleration(character, acceleration);
-    
+    Character_setLastUpdateTime(character, Time_getTicks());
+    Character_setSpeed(character, speed);
+    Character_setCurrentSpriteNumber(character, 0);
     return character;
 }
 
@@ -84,6 +89,26 @@ void Character_setSprites (SCharacter *character, unsigned nb_sprites,
     }
 }
 
+void Character_setX (SCharacter *character, float x) {
+    assert(character != NULL);
+    character->x = x;
+}
+
+float Character_getX (const SCharacter *character) {
+    assert(character != NULL);
+    return character->x;
+}
+
+void Character_setY (SCharacter *character, float y) {
+    assert(character != NULL);
+    character->y = y;
+}
+
+float Character_getY (const SCharacter *character) {
+    assert(character != NULL);
+    return character->y;
+}
+
 void Character_setNbSprites (SCharacter *character, unsigned nb_sprites) {
     assert(character != NULL);
     character->nbSprites = nb_sprites;
@@ -96,14 +121,19 @@ SRenderingSurface *Character_getSprite (const SCharacter *character, unsigned id
     return character->spriteTab[idX];
 }
 
-void Character_setCurrentSprite (SCharacter *character, unsigned current_sprite) {
+void Character_setCurrentSpriteNumber (SCharacter *character, unsigned current_sprite) {
     assert(character != NULL);
     character->currentSprite = current_sprite;
 }
 
-unsigned Character_getCurrentSprite (const SCharacter *character) {
+unsigned Character_getCurrentSpriteNumber (const SCharacter *character) {
     assert(character != NULL);
     return character->currentSprite;
+}
+
+SRenderingSurface *Character_getCurrentSprite (const SCharacter *character) {
+    assert(character != NULL);
+    return character->spriteTab[character->currentSprite];
 }
 
 void Character_setSpriteDuration (SCharacter *character, uint32_t duration) {
@@ -134,6 +164,47 @@ void Character_setAcceleration (SCharacter *character, float acceleration) {
 float Character_getAcceleration (const SCharacter *character) {
     assert(character != NULL);
     return character->acceleration;
+}
+
+void Character_setLastUpdateTime (SCharacter *character, uint32_t time) {
+    assert(character != NULL);
+    character->lastUpdateTime = time;
+}
+
+uint32_t Character_getLastUpdateTime (const SCharacter *character) {
+    assert(character != NULL);
+    return character->lastUpdateTime;
+}
+
+void Character_setSpeed (SCharacter *character, float speed) {
+    assert(character != NULL);
+    character->speed = speed;
+}
+
+float Character_getSpeed (const SCharacter *character) {
+    assert(character != NULL);
+    return character->speed;
+}
+
+void Character_updateSprite (SCharacter *character) {
+    assert(character != NULL);
+    uint32_t time_diff = Time_getTicks() - character->lastUpdateTime;
+    
+    if (character->speed < character->maxSpeed) {
+        character->speed += character->acceleration;
+        Log_output(1, "Info: CharSpeed: %f, CharAccel: %f, CharX: %f, CharY: %f\n",
+                   character->speed, character->acceleration, character->x,
+                   character->y);
+        //character->spriteDuration -= character->spriteDuration;
+    }
+    
+    character->x += character->speed;
+    
+    if (time_diff > character->spriteDuration) {
+        character->currentSprite++;
+        character->currentSprite %= character->nbSprites;
+        character->lastUpdateTime = Time_getTicks();
+    }
 }
 
 void Character_destroy (SCharacter *character) {
