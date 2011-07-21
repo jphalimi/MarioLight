@@ -52,7 +52,7 @@ int main (int argc, char *argv[])
 		
 		/* Update mario sprite */
 		if (Time_getTicks()-time > 17) { /* 1/60 (FPS) = 0.1666666s = 17ms */
-			Character_updateSprite(mario);
+			Character_update(mario);
 			time = Time_getTicks();
 		}
 		
