@@ -40,7 +40,7 @@ int main (int argc, char *argv[])
 	rendering = Rendering_create(config);
 	
 	/* Character setup */
-	mario = Character_create("Mario", 2, "game/images/mario", 300, 2.0, 0.1, 0.4);
+	mario = Character_create("Mario", 2, "game/images/mario", 300, 4.0, 0.1, 0.4);
 	
 	time = Time_getTicks();
 	while (e.key.keysym.sym != SDLK_ESCAPE) {
@@ -52,7 +52,7 @@ int main (int argc, char *argv[])
 		
 		/* Update mario sprite */
 		if (Time_getTicks()-time > 17) { /* 1/60 (FPS) = 0.1666666s = 17ms */
-			Character_updateSprite(mario);
+			Character_update(mario);
 			time = Time_getTicks();
 		}
 		
@@ -64,10 +64,8 @@ int main (int argc, char *argv[])
 		Rendering_render (rendering);
 		
 		/* Small pause */
-		SDL_Delay(1);
+		//SDL_Delay(1);
 	}
-	
-	SDL_Delay(200);
 	
 	/* Character delete */
 	Character_destroy(mario);
