@@ -24,7 +24,6 @@ void CharacterState_init (SCharacterState *characterState, int initState) {
 			characterState->schemeSize = sizeof(schemeTab) / sizeof(*schemeTab);
 			characterState->updatePos = isWalking_Pos;
 			characterState->updateSprite = isWalking_Sprite;
-			characterState->initState = NULL;
 			if (characterState->scheme == NULL) {
 				characterState->scheme = malloc(characterState->schemeSize
 												* sizeof(*characterState->scheme));
@@ -48,6 +47,11 @@ void CharacterState_free (SCharacterState *characterState) {
 	}
 }
 
+void CharacterState_reInit (SCharacterState *characterState) {
+	assert(characterState != NULL);
+	characterState->currentScheme = 0;
+}
+
 characterState_fct CharacterState_getUpdatePosHandler (const SCharacterState *characterState) {
 	assert(characterState != NULL);
 	return characterState->updatePos;
@@ -56,11 +60,6 @@ characterState_fct CharacterState_getUpdatePosHandler (const SCharacterState *ch
 characterState_fct CharacterState_getUpdateSpriteHandler (const SCharacterState *characterState) {
 	assert(characterState != NULL);
 	return characterState->updateSprite;
-}
-
-characterState_fct CharacterState_getInitHandler (const SCharacterState *characterState) {
-	assert(characterState != NULL);
-	return characterState->initState;
 }
 
 void CharacterState_setCurrentScheme (SCharacterState *characterState, unsigned value) {
