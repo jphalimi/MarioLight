@@ -14,8 +14,6 @@
 #include "../rendering/rendering.h"
 #include "character_state.h"
 
-#define CHARACTER_STATES_NB 6
-
 typedef struct sCharacter {
     char name[STRBUF_MAXLEN];
     SRenderingSurface **spriteTab;
@@ -28,7 +26,7 @@ typedef struct sCharacter {
     float speed;
     float x, y; /* Character position */
     SCharacterState states[CHARACTER_STATES_NB];
-    int currentState;
+    unsigned currentState;
 } SCharacter;
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
@@ -76,8 +74,8 @@ void Character_update (SCharacter *character);
 void Character_updatePosition (SCharacter *character);
 void Character_updateSprite (SCharacter *character);
 
-void Character_setCurrentState (SCharacter *character, int currentState);
-int Character_getCurrentState (const SCharacter *character);
+void Character_setCurrentState (SCharacter *character, unsigned currentState);
+unsigned Character_getCurrentState (const SCharacter *character);
 
 void Character_destroy (SCharacter *character);
 

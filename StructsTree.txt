@@ -1,0 +1,49 @@
+MarioLight - Structs Tree
+
+Introduction :
+A little bit of documentation about the project is not a bad thing, so I thought it was interesting to build this struct tree to demonstrate how the program works, or at least, is built :
+
+1) Toolkit:
+	SLinklist {
+		SLinkListNode head {
+			void *data;
+			SLinkListNode *next;
+		};
+		linkList_fct print;
+		linkList_fct destroy;
+	};
+
+2) Game:
+	a) Rendering
+		SRendering {
+			SRenderingSurface screen (alias of SDL_Surface)
+		};
+
+	b) Config
+		SConfig {
+			unsigned windowWidth;
+			unsigned windowHeight;
+			string gameName;
+			uint32 sdlFlags;
+		};
+
+	c) Character
+		SCharacter {
+			string name;
+			SRenderingSurface spriteTab {table};
+			unsigned nbSprites;
+			unsigned currentSprite;
+			uint32 spriteDuration;
+			float maxSpeed;
+			float acceleration;
+			uint32 lastUpdateTime;
+			float x,y;
+			SCharacterState states {table} {
+				characterState_fct updatePos;
+				characterState_fct updateSprite;
+				unsigned scheme {table};
+				unsigned currentScheme;
+				unsigned schemeSize;
+			};
+			unsigned currentState;
+		};

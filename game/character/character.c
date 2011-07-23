@@ -20,13 +20,6 @@ SCharacter *Character_create (const char *name, unsigned nb_sprites,
 							  const char *sprites_folder, uint32_t sprite_duration,
 							  float max_speed, float acceleration, float speed) {
 	unsigned i;
-	/* Handlers table */
-	characterState_fct posHandlers[] = {
-		NULL, isWalking_Pos, NULL, NULL, NULL, NULL
-	};
-	characterState_fct spriteHandlers[] = {
-		NULL, isWalking_Sprite, NULL, NULL, NULL, NULL
-	};
 	SCharacter *character = malloc(sizeof(*character));
 	assert(character != NULL);
 	memset(character, 0, sizeof(*character));
@@ -47,7 +40,7 @@ SCharacter *Character_create (const char *name, unsigned nb_sprites,
 	
 	/* Init character states handlers */
 	for (i = 0; i < CHARACTER_STATES_NB; i++) {
-		CharacterState_setHandlers(&(character->states[i]), posHandlers[i], spriteHandlers[i]);
+		CharacterState_init(&(character->states[i]), i);
 	}
 	return character;
 }
@@ -227,12 +220,12 @@ void Character_updateSprite (SCharacter *character) {
 	}
 }
 
-void Character_setCurrentState (SCharacter *character, int currentState) {
+void Character_setCurrentState (SCharacter *character, unsigned currentState) {
 	assert(character != NULL);
 	character->currentState = currentState;
 }
 
-int Character_getCurrentState (const SCharacter *character) {
+unsigned Character_getCurrentState (const SCharacter *character) {
 	assert(character != NULL);
 	return character->currentState;
 }
@@ -244,5 +237,9 @@ void Character_destroy (SCharacter *character) {
 		Rendering_freeSurface(character->spriteTab[i]);
 	}
 	free(character->spriteTab), character->spriteTab = NULL;
+	
+	for (i = 0; i < CHARACTER_STATES_NB; ++i) {
+		CharacterState_free(&character->states[i]);
+	}
 	free(character), character = NULL;
 }
