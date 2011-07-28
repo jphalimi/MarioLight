@@ -29,6 +29,8 @@ done
 
 echo -e "\n${exec}: ${objects}\n\t${compiler} ${objects} -o ${exec} ${flags} ${libs}" >> $file
 
-echo -e "clean:\n\trm -rf ${objects} ${exec}" >> $file
+echo -e "\ncount:\n\t@echo \"Project count :\"\n\t@wc -l \`find . -iname \"*.[ch]\"\`" >> $file;
+
+echo -e "\nclean:\n\trm -rf ${objects} ${exec}" >> $file
 
 echo "done";

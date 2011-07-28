@@ -29,5 +29,10 @@ game/time/time.o: game/time/time.c
 
 marioLight:  toolkit/linklist.o toolkit/log.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o ./main.o
 	gcc  toolkit/linklist.o toolkit/log.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o ./main.o -o marioLight -Wall -Wextra -O3 -I/opt/local/include/SDL -D_GNU_SOURCE=1 -D_THREAD_SAFE -g -L/opt/local/lib -lSDLmain -lSDL -Wl,-framework,Cocoa -lSDL_image
+
+count:
+	@echo "Project count :"
+	@wc -l `find . -iname "*.[ch]"`
+
 clean:
 	rm -rf  toolkit/linklist.o toolkit/log.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o ./main.o marioLight
