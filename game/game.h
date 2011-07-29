@@ -15,8 +15,6 @@
 typedef struct sGame {
     SConfig *config;
     SRendering *rendering;
-    SCharacter **characters;
-    unsigned charactersSize;
 } SGame;
 
 SGame *Game_create (void);

@@ -1,13 +1,13 @@
 #!/bin/bash
 
-directories="toolkit game/rendering game/config game/character game/time .";
+directories="toolkit game game/rendering game/config game/character game/time .";
 file="Makefile";
 sources="";
 objects="";
 rules="";
 compiler="gcc";
-flags="-Wall -Wextra -O3 `sdl-config --cflags` -g";
-libs="`sdl-config --libs` -lSDL_image";
+flags="-Wall -Wextra -O3 \`sdl-config --cflags\` -g";
+libs="\`sdl-config --libs\` -lSDL_image";
 exec="marioLight";
 
 echo -n "Generating Makefile... ";
