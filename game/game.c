@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include <SDL/SDL.h>
 #include "game.h"
 #include "character/character.h"
@@ -31,6 +32,9 @@ int Game_launch (SGame *game) {
 	SDL_Event e;
 	SCharacter *mario;
 	uint32_t time;
+    
+    /* Initializes the SDL_Event variable */
+    memset(&e, 0, sizeof(e));
     
     /* Character setup */
     mario = Character_create("Mario", 13, "game/images/mario", 100, 5.0, 0.3, 0.0);
