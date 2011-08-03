@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include "../config/config.h"
 #include "../rendering/rendering.h"
+#include "../input/input.h"
 #include "character_state.h"
 
 typedef struct sCharacter {
@@ -70,9 +71,9 @@ uint32_t Character_getLastUpdateTime (const SCharacter *character);
 void Character_setSpeed (SCharacter *character, float speed);
 float Character_getSpeed (const SCharacter *character);
 
-void Character_update (SCharacter *character);
-void Character_updatePosition (SCharacter *character);
-void Character_updateSprite (SCharacter *character);
+void Character_update (SCharacter *character, SInput *input);
+void Character_updatePosition (SCharacter *character, SInput *input);
+void Character_updateSprite (SCharacter *character, SInput *input);
 
 void Character_setCurrentState (SCharacter *character, unsigned currentState);
 unsigned Character_getCurrentState (const SCharacter *character);

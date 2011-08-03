@@ -195,12 +195,12 @@ float Character_getSpeed (const SCharacter *character) {
 	return character->speed;
 }
 
-void Character_update (SCharacter *character) {
-	Character_updatePosition(character);
-	Character_updateSprite(character);
+void Character_update (SCharacter *character, SInput *input) {
+	Character_updatePosition(character, input);
+	Character_updateSprite(character, input);
 }
 
-void Character_updatePosition (SCharacter *character) {
+void Character_updatePosition (SCharacter *character, SInput *input) {
 	characterState_fct updatePosition;
 	assert(character != NULL);
 	updatePosition = CharacterState_getUpdatePosHandler (&(character->states[character->currentState]));
@@ -210,7 +210,7 @@ void Character_updatePosition (SCharacter *character) {
 	}
 }
 
-void Character_updateSprite (SCharacter *character) {
+void Character_updateSprite (SCharacter *character, SInput *input) {
 	characterState_fct updateSprite;
 	assert(character != NULL);
 	updateSprite = CharacterState_getUpdateSpriteHandler(&(character->states[character->currentState]));

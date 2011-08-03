@@ -1,6 +1,6 @@
 #!/bin/bash
 
-directories="toolkit game game/rendering game/config game/character game/time .";
+directories="toolkit game game/rendering game/config game/character game/time game/input .";
 file="Makefile";
 sources="";
 objects="";
@@ -31,6 +31,6 @@ echo -e "\n${exec}: ${objects}\n\t${compiler} ${objects} -o ${exec} ${flags} ${l
 
 echo -e "\ncount:\n\t@echo \"Project count :\"\n\t@wc -l \`find . -iname \"*.[ch]\"\`" >> $file;
 
-echo -e "\nclean:\n\trm -rf ${objects} ${exec}" >> $file
+echo -e "\nclean:\n\trm -rf ${objects} ${exec}\n\t@./generate.sh" >> $file
 
 echo "done";

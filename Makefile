@@ -27,15 +27,19 @@ game/character/states_handlers.o: game/character/states_handlers.c
 game/time/time.o: game/time/time.c
 	gcc game/time/time.c -c -o game/time/time.o -Wall -Wextra -O3 `sdl-config --cflags` -g
 
+game/input/input.o: game/input/input.c
+	gcc game/input/input.c -c -o game/input/input.o -Wall -Wextra -O3 `sdl-config --cflags` -g
+
 ./main.o: ./main.c
 	gcc ./main.c -c -o ./main.o -Wall -Wextra -O3 `sdl-config --cflags` -g
 
-marioLight:  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o ./main.o
-	gcc  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o ./main.o -o marioLight -Wall -Wextra -O3 `sdl-config --cflags` -g `sdl-config --libs` -lSDL_image
+marioLight:  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o ./main.o
+	gcc  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o ./main.o -o marioLight -Wall -Wextra -O3 `sdl-config --cflags` -g `sdl-config --libs` -lSDL_image
 
 count:
 	@echo "Project count :"
 	@wc -l `find . -iname "*.[ch]"`
 
 clean:
-	rm -rf  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o ./main.o marioLight
+	rm -rf  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o ./main.o marioLight
+	@./generate.sh

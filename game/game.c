@@ -16,6 +16,8 @@
 #include "config/config.h"
 #include "rendering/rendering.h"
 #include "time/time.h"
+#include "input/input.h"
+#include "../toolkit/log.h"
 
 SGame *Game_create (void) {
     SGame *game = malloc(sizeof(*game));
@@ -29,27 +31,26 @@ SGame *Game_create (void) {
 }
 
 int Game_launch (SGame *game) {
-	SDL_Event e;
+    SInput input;
 	SCharacter *mario;
 	uint32_t time;
     
-    /* Initializes the SDL_Event variable */
-    memset(&e, 0, sizeof(e));
+    Input_init(&input);
     
     /* Character setup */
     mario = Character_create("Mario", 13, "game/images/mario", 100, 5.0, 0.3, 0.0);
 	
     time = Time_getTicks();
-	while (e.key.keysym.sym != SDLK_ESCAPE) {
+	while (!Input_quitRequested(&input)) {
 		/* Input detection */
-		SDL_PollEvent(&e);
+        Input_handleEvents(&input);
 		
 		/* Reset screen */
 		Rendering_resetScreen();
 		
 		/* Update mario sprite */
 		if (Time_getTicks()-time > 17) { /* 1/60 (FPS) = 0.1666666s = 17ms */
-			Character_update(mario);
+			Character_update(mario, &input);
 			time = Time_getTicks();
 		}
 		
