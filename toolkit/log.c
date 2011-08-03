@@ -10,7 +10,10 @@
 #include <stdarg.h>
 #include "log.h"
 
-static SLog m_log;
+static SLog m_log = {
+	.fd = NULL,
+    .verbosity = 0
+};
 
 void Log_setOutput (FILE *fd) {
     m_log.fd = fd;
