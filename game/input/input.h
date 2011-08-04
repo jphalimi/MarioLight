@@ -9,6 +9,7 @@
 #ifndef H_INPUT
 #define H_INPUT
 
+#include <SDL/SDL.h>
 #include <stdio.h>
 
 enum { INPUT_LEFT = 0, INPUT_RIGHT, INPUT_UP, INPUT_DOWN, INPUT_A, INPUT_B, INPUT_CLICK };

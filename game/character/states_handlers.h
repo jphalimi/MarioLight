@@ -9,7 +9,10 @@
 #ifndef H_STATESHANDLERS
 #define H_STATESHANDLERS
 
-void isWalking_Pos (void *);
-void isWalking_Sprite (void *);
+#include "character.h"
+#include "../input/input.h"
+
+void isWalking_Pos (SCharacter *, SInput *input);
+void isWalking_Sprite (SCharacter *, SInput *input);
 
 #endif

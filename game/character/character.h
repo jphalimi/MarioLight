@@ -10,6 +10,7 @@
 #define H_CHARACTER
 
 #include <stdint.h>
+
 #include "../config/config.h"
 #include "../rendering/rendering.h"
 #include "../input/input.h"
@@ -20,7 +21,7 @@ typedef struct sCharacter {
     SRenderingSurface **spriteTab;
     unsigned nbSprites;
     unsigned currentSprite;
-    uint32_t spriteDuration;
+    float spriteDuration;
     float maxSpeed;
     float acceleration;
     uint32_t lastUpdateTime;
@@ -31,7 +32,7 @@ typedef struct sCharacter {
 } SCharacter;
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
-                              const char *sprites_folder, uint32_t sprite_duration,
+                              const char *sprites_folder, float sprite_duration,
                               float max_speed, float acceleration, float speed);
 void Character_setName (SCharacter *character, const char *name);
 char const *Character_getName (const SCharacter *character);

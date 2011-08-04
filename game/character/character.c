@@ -17,7 +17,7 @@
 #include "../time/time.h"
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
-							  const char *sprites_folder, uint32_t sprite_duration,
+							  const char *sprites_folder, float sprite_duration,
 							  float max_speed, float acceleration, float speed) {
 	unsigned i;
 	SCharacter *character = malloc(sizeof(*character));
@@ -206,7 +206,7 @@ void Character_updatePosition (SCharacter *character, SInput *input) {
 	updatePosition = CharacterState_getUpdatePosHandler (&(character->states[character->currentState]));
 	
 	if (updatePosition != NULL) {
-		updatePosition (character);
+		updatePosition (character, input);
 	}
 }
 
@@ -216,7 +216,7 @@ void Character_updateSprite (SCharacter *character, SInput *input) {
 	updateSprite = CharacterState_getUpdateSpriteHandler(&(character->states[character->currentState]));
 	
 	if (updateSprite != NULL) {
-		updateSprite (character);
+		updateSprite (character, input);
 	}
 }
 
