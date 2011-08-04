@@ -35,6 +35,23 @@ void CharacterState_init (SCharacterState *characterState, int initState) {
 				   characterState->schemeSize * sizeof(*characterState->scheme));
 			break;
 		}
+		case CHARACTER_ISSTANDING:
+		{
+			unsigned schemeTab[] = {0};
+			characterState->schemeSize = sizeof(schemeTab) / sizeof(*schemeTab);
+			characterState->updatePos = isStanding_Pos;
+			characterState->updateSprite = isStanding_Sprite;
+			if (characterState->scheme == NULL) {
+				characterState->scheme = malloc(characterState->schemeSize
+												* sizeof(*characterState->scheme));
+				assert(characterState->scheme != NULL);
+			} else {
+				Log_output(1, "Warning: Attempt to init CharacterState already initialized\n");
+			}
+			memcpy(characterState->scheme, schemeTab,
+				   characterState->schemeSize * sizeof(*characterState->scheme));
+			break;
+		}
 		default:
 			break;
 	}

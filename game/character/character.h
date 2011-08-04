@@ -16,6 +16,9 @@
 #include "../input/input.h"
 #include "character_state.h"
 
+/* Directions enum */
+enum { DIR_RIGHT, DIR_LEFT };
+
 typedef struct sCharacter {
     char name[STRBUF_MAXLEN];
     SRenderingSurface **spriteTab;
@@ -29,6 +32,7 @@ typedef struct sCharacter {
     float x, y; /* Character position */
     SCharacterState states[CHARACTER_STATES_NB];
     unsigned currentState;
+    int lastDirection;
 } SCharacter;
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
@@ -73,11 +77,15 @@ void Character_setSpeed (SCharacter *character, float speed);
 float Character_getSpeed (const SCharacter *character);
 
 void Character_update (SCharacter *character, SInput *input);
+void Character_updateDirection (SCharacter *character, SInput *input);
 void Character_updatePosition (SCharacter *character, SInput *input);
 void Character_updateSprite (SCharacter *character, SInput *input);
 
 void Character_setCurrentState (SCharacter *character, unsigned currentState);
 unsigned Character_getCurrentState (const SCharacter *character);
+
+void Character_setLastDirection (SCharacter *character, int value);
+int Character_getLastDirection (const SCharacter *character);
 
 void Character_destroy (SCharacter *character);
 

@@ -36,7 +36,8 @@ SCharacter *Character_create (const char *name, unsigned nb_sprites,
 	Character_setLastUpdateTime(character, Time_getTicks());
 	Character_setSpeed(character, speed);
 	Character_setCurrentSpriteNumber(character, 0);
-	Character_setCurrentState(character, CHARACTER_ISWALKING);
+	Character_setCurrentState(character, CHARACTER_ISSTANDING);
+	Character_setLastDirection(character, DIR_RIGHT);
 	
 	/* Init character states handlers */
 	for (i = 0; i < CHARACTER_STATES_NB; i++) {
@@ -196,8 +197,20 @@ float Character_getSpeed (const SCharacter *character) {
 }
 
 void Character_update (SCharacter *character, SInput *input) {
+	Character_updateDirection (character, input);
 	Character_updatePosition(character, input);
 	Character_updateSprite(character, input);
+}
+
+void Character_updateDirection (SCharacter *character, SInput *input) {
+	assert(character != NULL && input != NULL);
+	
+	if (Input_isPushed(input, INPUT_LEFT)) {
+		character->lastDirection = DIR_LEFT;
+	}
+	if (Input_isPushed(input, INPUT_RIGHT)) {
+		character->lastDirection = DIR_RIGHT;
+	}
 }
 
 void Character_updatePosition (SCharacter *character, SInput *input) {
@@ -228,6 +241,16 @@ void Character_setCurrentState (SCharacter *character, unsigned currentState) {
 unsigned Character_getCurrentState (const SCharacter *character) {
 	assert(character != NULL);
 	return character->currentState;
+}
+
+void Character_setLastDirection (SCharacter *character, int value) {
+	assert(character != NULL);
+	character->lastDirection = value;
+}
+
+int Character_getLastDirection (const SCharacter *character) {
+	assert(character != NULL);
+	return character->lastDirection;
 }
 
 void Character_destroy (SCharacter *character) {
