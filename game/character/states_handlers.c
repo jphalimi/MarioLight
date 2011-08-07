@@ -93,4 +93,6 @@ void isStanding_Sprite (SCharacter *character, SInput *input) {
     } else {
         character->currentSprite = currentState->scheme[0]+7;
     }
+    
+    (void) input;
 }

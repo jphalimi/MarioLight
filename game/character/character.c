@@ -94,7 +94,7 @@ void Character_setSprites (SCharacter *character, unsigned nb_sprites,
 	for (i = 0; i < nb_sprites; ++i) {
 		snprintf(spriteFileNameBuf, STRBUF_MAXLEN, "%s/%d.png", sprites_folder, i);
 		Log_output(1, "Loading file \"%s\"... ", spriteFileNameBuf);
-		character->spriteTab[i] = Rendering_loadImage(spriteFileNameBuf);
+		character->spriteTab[i] = Rendering_loadImage(spriteFileNameBuf, 1);
 		Log_output(1, "done\n");
 	}
 }

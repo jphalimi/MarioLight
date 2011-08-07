@@ -41,7 +41,7 @@ SRendering *Rendering_create (const SConfig *config) {
     return rendering;
 }
 
-SRenderingSurface *Rendering_loadImage (const char *fileName) {
+SRenderingSurface *Rendering_loadImage (const char *fileName, int alpha) {
     SDL_Surface *first, *optimized;
     
     assert(fileName != NULL);
@@ -51,7 +51,13 @@ SRenderingSurface *Rendering_loadImage (const char *fileName) {
         Log_output(1, "Error: Failed to load image \"%s\" : %s\n", fileName, SDL_GetError());
         exit(EXIT_FAILURE);
     }
-    optimized = SDL_DisplayFormat(first);
+    
+    if (alpha) {
+        optimized = SDL_DisplayFormatAlpha(first);
+    } else {
+        optimized = SDL_DisplayFormat(first);
+    }
+    
     if (optimized == NULL) {
         Log_output(1, "Error: Failed to optimized image \"%s\" blitting : %s\n", fileName,
                    SDL_GetError());
