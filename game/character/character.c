@@ -18,7 +18,7 @@
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
 							  const char *sprites_folder, float sprite_duration,
-							  float max_speed, float acceleration, float speed) {
+							  float max_speed, float acceleration, float speedX, float speedY) {
 	unsigned i;
 	SCharacter *character = malloc(sizeof(*character));
 	assert(character != NULL);
@@ -31,10 +31,11 @@ SCharacter *Character_create (const char *name, unsigned nb_sprites,
 	Character_setNbSprites(character, nb_sprites);
 	Character_setName(character, name);
 	Character_setSpriteDuration(character, sprite_duration);
+	Character_setOriginalSpriteDuration(character, sprite_duration);
 	Character_setMaxSpeed(character, max_speed);
 	Character_setAcceleration(character, acceleration);
 	Character_setLastUpdateTime(character, Time_getTicks());
-	Character_setSpeed(character, speed);
+	Character_setSpeed(character, speedX, speedY);
 	Character_setCurrentSpriteNumber(character, 0);
 	Character_setCurrentState(character, CHARACTER_ISSTANDING);
 	Character_setLastDirection(character, DIR_RIGHT);
@@ -146,14 +147,24 @@ SRenderingSurface *Character_getCurrentSprite (const SCharacter *character) {
 	return character->spriteTab[character->currentSprite];
 }
 
-void Character_setSpriteDuration (SCharacter *character, uint32_t duration) {
+void Character_setSpriteDuration (SCharacter *character, float duration) {
 	assert(character != NULL);
 	character->spriteDuration = duration;
 }
 
-uint32_t Character_getSpriteDuration (const SCharacter *character) {
+float Character_getSpriteDuration (const SCharacter *character) {
 	assert(character != NULL);
 	return character->spriteDuration;
+}
+
+void Character_setOriginalSpriteDuration (SCharacter *character, float duration) {
+	assert(character != NULL);
+	character->originalSpriteDuration = duration;
+}
+
+float Character_getOriginalSpriteDuration (const SCharacter *character) {
+	assert(character != NULL);
+	return character->originalSpriteDuration;
 }
 
 void Character_setMaxSpeed (SCharacter *character, float max_speed) {
@@ -186,20 +197,52 @@ uint32_t Character_getLastUpdateTime (const SCharacter *character) {
 	return character->lastUpdateTime;
 }
 
-void Character_setSpeed (SCharacter *character, float speed) {
+void Character_setSpeed (SCharacter *character, float speedX, float speedY) {
 	assert(character != NULL);
-	character->speed = speed;
+	character->speedX = speedX;
+	character->speedY = speedY;
 }
 
-float Character_getSpeed (const SCharacter *character) {
+float Character_getSpeedX (const SCharacter *character) {
 	assert(character != NULL);
-	return character->speed;
+	return character->speedX;
+}
+
+float Character_getSpeedY (const SCharacter *character) {
+	assert(character != NULL);
+	return character->speedY;
 }
 
 void Character_update (SCharacter *character, SInput *input) {
+	Character_updateState (character, input);
 	Character_updateDirection (character, input);
 	Character_updatePosition(character, input);
 	Character_updateSprite(character, input);
+}
+
+void Character_updateState (SCharacter *character, SInput *input) {
+	assert(character != NULL && input != NULL);
+	
+	switch (character->currentState) {
+		case CHARACTER_ISWALKING:
+			if (Input_isPushed(input, INPUT_UP)) {
+				character->currentState = CHARACTER_ISJUMPING;
+				character->speedY = 6.0;
+			}
+			break;
+		case CHARACTER_ISSTANDING:
+			if (Input_isPushed(input, INPUT_LEFT)) {
+				character->currentState = CHARACTER_ISWALKING;
+			}
+			if (Input_isPushed(input, INPUT_RIGHT)) {
+				character->currentState = CHARACTER_ISWALKING;
+			}
+			if (Input_isPushed(input, INPUT_UP)) {
+				character->currentState = CHARACTER_ISJUMPING;
+				character->speedY = 6.0;
+			}
+			break;
+	}
 }
 
 void Character_updateDirection (SCharacter *character, SInput *input) {
@@ -241,6 +284,21 @@ void Character_setCurrentState (SCharacter *character, unsigned currentState) {
 unsigned Character_getCurrentState (const SCharacter *character) {
 	assert(character != NULL);
 	return character->currentState;
+}
+
+void Character_switchState (SCharacter *character, unsigned newState) {
+	assert(character != NULL);
+	switch (newState) {
+		case CHARACTER_ISSTANDING:
+			character->speedX = 0;
+			character->speedY = 0;
+			character->spriteDuration = character->originalSpriteDuration;
+			break;
+		case CHARACTER_ISWALKING:
+			character->speedY = 0;
+			break;
+	}
+	character->currentState = newState;
 }
 
 void Character_setLastDirection (SCharacter *character, int value) {

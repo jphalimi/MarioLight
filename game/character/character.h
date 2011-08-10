@@ -25,10 +25,11 @@ typedef struct sCharacter {
     unsigned nbSprites;
     unsigned currentSprite;
     float spriteDuration;
+    float originalSpriteDuration;
     float maxSpeed;
     float acceleration;
     uint32_t lastUpdateTime;
-    float speed;
+    float speedX, speedY;
     float x, y; /* Character position */
     SCharacterState states[CHARACTER_STATES_NB];
     unsigned currentState;
@@ -37,7 +38,7 @@ typedef struct sCharacter {
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
                               const char *sprites_folder, float sprite_duration,
-                              float max_speed, float acceleration, float speed);
+                              float max_speed, float acceleration, float speedX, float speedY);
 void Character_setName (SCharacter *character, const char *name);
 char const *Character_getName (const SCharacter *character);
 
@@ -61,8 +62,11 @@ unsigned Character_getCurrentSpriteNumber (const SCharacter *character);
 
 SRenderingSurface *Character_getCurrentSprite (const SCharacter *character);
 
-void Character_setSpriteDuration (SCharacter *character, uint32_t spriteDuraton);
-uint32_t Character_getSpriteDuration (const SCharacter *character);
+void Character_setSpriteDuration (SCharacter *character, float spriteDuration);
+float Character_getSpriteDuration (const SCharacter *character);
+
+void Character_setOriginalSpriteDuration (SCharacter *character, float spriteDuration);
+float Character_getOriginalSpriteDuration (const SCharacter *character);
 
 void Character_setMaxSpeed (SCharacter *character, float maxSpeed);
 float Character_getMaxSpeed (const SCharacter *character);
@@ -73,16 +77,20 @@ float Character_getAcceleration (const SCharacter *character);
 void Character_setLastUpdateTime (SCharacter *character, uint32_t time);
 uint32_t Character_getLastUpdateTime (const SCharacter *character);
 
-void Character_setSpeed (SCharacter *character, float speed);
-float Character_getSpeed (const SCharacter *character);
+void Character_setSpeed (SCharacter *character, float speedX, float speedY);
+float Character_getSpeedX (const SCharacter *character);
+float Character_getSpeedY (const SCharacter *character);
 
 void Character_update (SCharacter *character, SInput *input);
+void Character_updateState (SCharacter *character, SInput *input);
 void Character_updateDirection (SCharacter *character, SInput *input);
 void Character_updatePosition (SCharacter *character, SInput *input);
 void Character_updateSprite (SCharacter *character, SInput *input);
 
 void Character_setCurrentState (SCharacter *character, unsigned currentState);
 unsigned Character_getCurrentState (const SCharacter *character);
+
+void Character_switchState (SCharacter *character, unsigned newState);
 
 void Character_setLastDirection (SCharacter *character, int value);
 int Character_getLastDirection (const SCharacter *character);

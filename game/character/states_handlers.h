@@ -15,7 +15,9 @@
 void isWalking_Pos (SCharacter *, SInput *input);
 void isWalking_Sprite (SCharacter *, SInput *input);
 
-void isStanding_Pos (SCharacter *character, SInput *input);
 void isStanding_Sprite (SCharacter *character, SInput *input);
+
+void isJumping_Pos (SCharacter *character, SInput *input);
+void isJumping_Sprite (SCharacter *character, SInput *input);
 
 #endif

@@ -80,7 +80,7 @@ void Rendering_addSurface (SRendering *rendering, int idX, int idY,
     assert(surf != NULL);
     
     rect.x = idX;
-    rect.y = idY + rendering->screen->h - surf->h;
+    rect.y = rendering->screen->h - surf->h - idY;
     
     if (SDL_BlitSurface(surf, NULL, rendering->screen, &rect) < 0) {
         Log_output(1, "Error: Cannot blit surface to screen : %s\n", SDL_GetError());

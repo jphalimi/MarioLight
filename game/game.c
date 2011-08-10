@@ -39,7 +39,7 @@ int Game_launch (SGame *game) {
     
     /* Character setup */
     //Character_create(<#const char *name#>, <#unsigned int nb_sprites#>, <#const char *sprites_folder#>,<#uint32_t sprite_duration#>, <#float max_speed#>, <#float acceleration#>, <#float speed#>)
-    mario = Character_create("Mario", 13, "game/images/mario", 130, 5.0, 0.3, 0.0);
+    mario = Character_create("Mario", 13, "game/images/mario", 130, 5.0, 0.3, 0.0, 0.0);
 	
     time = Time_getTicks();
 	while (!Input_quitRequested(&input)) {
