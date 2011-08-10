@@ -81,11 +81,11 @@ void Character_setSpeed (SCharacter *character, float speedX, float speedY);
 float Character_getSpeedX (const SCharacter *character);
 float Character_getSpeedY (const SCharacter *character);
 
-void Character_update (SCharacter *character, SInput *input);
+void Character_update (SCharacter *character, SInput *input, uint32_t elapsedTime);
 void Character_updateState (SCharacter *character, SInput *input);
 void Character_updateDirection (SCharacter *character, SInput *input);
-void Character_updatePosition (SCharacter *character, SInput *input);
-void Character_updateSprite (SCharacter *character, SInput *input);
+void Character_updatePosition (SCharacter *character, SInput *input, uint32_t elapsedTime);
+void Character_updateSprite (SCharacter *character, SInput *input, uint32_t elapsedTime);
 
 void Character_setCurrentState (SCharacter *character, unsigned currentState);
 unsigned Character_getCurrentState (const SCharacter *character);

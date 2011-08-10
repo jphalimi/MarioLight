@@ -17,11 +17,12 @@
 
 #define GRAVITY 0.5
 
-void isWalking_Pos (SCharacter *character, SInput *input) {
+void isWalking_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) {
     assert(character != NULL);
     int isPushedRight = Input_isPushed(input, INPUT_RIGHT);
     int isPushedLeft = Input_isPushed(input, INPUT_LEFT);
     float newSpeed;
+    float elapsedT = elapsedTime;
     
     /* If something is pushed, we update the speed and spriteDuration */
     if (isPushedRight) {
@@ -64,11 +65,14 @@ void isWalking_Pos (SCharacter *character, SInput *input) {
         }
     }
 	
+    if (character->speedX < 0) {
+        elapsedT = -elapsedT;
+    }
     character->x += character->speedX;
     character->x = (int)(character->x)%(SDL_GetVideoSurface()->w);
 }
 
-void isWalking_Sprite (SCharacter *character, SInput *input) {
+void isWalking_Sprite (SCharacter *character, SInput *input, uint32_t elapsedTime) {
     assert(character != NULL);
     SCharacterState *currentState = &character->states[character->currentState];
     unsigned currentScheme = CharacterState_getCurrentScheme(currentState);
@@ -100,7 +104,7 @@ void isWalking_Sprite (SCharacter *character, SInput *input) {
     (void) input;
 }
 
-void isStanding_Sprite (SCharacter *character, SInput *input) {
+void isStanding_Sprite (SCharacter *character, SInput *input, uint32_t elapsedTime) {
     assert(character != NULL);
     SCharacterState *currentState = &character->states[character->currentState];
     
@@ -113,7 +117,7 @@ void isStanding_Sprite (SCharacter *character, SInput *input) {
     (void) input;
 }
 
-void isJumping_Pos (SCharacter *character, SInput *input) {
+void isJumping_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) {
     assert(character != NULL);
     int isPushedUp = Input_isPushed(input, INPUT_UP);
     float newPos;
@@ -134,7 +138,7 @@ void isJumping_Pos (SCharacter *character, SInput *input) {
     character->x = (int)(character->x)%(SDL_GetVideoSurface()->w);
 }
 
-void isJumping_Sprite (SCharacter *character, SInput *input) {
+void isJumping_Sprite (SCharacter *character, SInput *input, uint32_t elapsedTime) {
     assert(character != NULL);
     SCharacterState *currentState = &character->states[character->currentState];
     

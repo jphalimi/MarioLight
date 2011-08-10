@@ -9,6 +9,7 @@
 #ifndef H_CHARACTERSTATE
 #define H_CHARACTERSTATE
 
+#include <stdint.h>
 #include "../input/input.h"
 
 struct sCharacter;
@@ -22,7 +23,7 @@ enum {  CHARACTER_ISSTANDING = 0,   /* Character is standing (no movement) */
 		CHARACTER_STATES_NB		/* Character states number (max) */
 };
 
-typedef void (*characterState_fct)(struct sCharacter *character, SInput *input);
+typedef void (*characterState_fct)(struct sCharacter *character, SInput *input, uint32_t elapsedTime);
 
 typedef struct sCharacterState {
 	characterState_fct updatePos;		/* callback function handling the position update */

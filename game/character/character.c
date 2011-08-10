@@ -213,11 +213,11 @@ float Character_getSpeedY (const SCharacter *character) {
 	return character->speedY;
 }
 
-void Character_update (SCharacter *character, SInput *input) {
+void Character_update (SCharacter *character, SInput *input, uint32_t elapsedTime) {
 	Character_updateState (character, input);
 	Character_updateDirection (character, input);
-	Character_updatePosition(character, input);
-	Character_updateSprite(character, input);
+	Character_updatePosition(character, input, elapsedTime);
+	Character_updateSprite(character, input, elapsedTime);
 }
 
 void Character_updateState (SCharacter *character, SInput *input) {
@@ -226,20 +226,18 @@ void Character_updateState (SCharacter *character, SInput *input) {
 	switch (character->currentState) {
 		case CHARACTER_ISWALKING:
 			if (Input_isPushed(input, INPUT_UP)) {
-				character->currentState = CHARACTER_ISJUMPING;
-				character->speedY = 6.0;
+				Character_switchState(character, CHARACTER_ISJUMPING);
 			}
 			break;
 		case CHARACTER_ISSTANDING:
 			if (Input_isPushed(input, INPUT_LEFT)) {
-				character->currentState = CHARACTER_ISWALKING;
+				Character_switchState(character, CHARACTER_ISWALKING);
 			}
 			if (Input_isPushed(input, INPUT_RIGHT)) {
-				character->currentState = CHARACTER_ISWALKING;
+				Character_switchState(character, CHARACTER_ISWALKING);
 			}
 			if (Input_isPushed(input, INPUT_UP)) {
-				character->currentState = CHARACTER_ISJUMPING;
-				character->speedY = 6.0;
+				Character_switchState(character, CHARACTER_ISJUMPING);
 			}
 			break;
 	}
@@ -256,23 +254,23 @@ void Character_updateDirection (SCharacter *character, SInput *input) {
 	}
 }
 
-void Character_updatePosition (SCharacter *character, SInput *input) {
+void Character_updatePosition (SCharacter *character, SInput *input, uint32_t elapsedTime) {
 	characterState_fct updatePosition;
 	assert(character != NULL);
 	updatePosition = CharacterState_getUpdatePosHandler (&(character->states[character->currentState]));
 	
 	if (updatePosition != NULL) {
-		updatePosition (character, input);
+		updatePosition (character, input, elapsedTime);
 	}
 }
 
-void Character_updateSprite (SCharacter *character, SInput *input) {
+void Character_updateSprite (SCharacter *character, SInput *input, uint32_t elapsedTime) {
 	characterState_fct updateSprite;
 	assert(character != NULL);
 	updateSprite = CharacterState_getUpdateSpriteHandler(&(character->states[character->currentState]));
 	
 	if (updateSprite != NULL) {
-		updateSprite (character, input);
+		updateSprite (character, input, elapsedTime);
 	}
 }
 
@@ -296,6 +294,8 @@ void Character_switchState (SCharacter *character, unsigned newState) {
 			break;
 		case CHARACTER_ISWALKING:
 			character->speedY = 0;
+		case CHARACTER_ISJUMPING:
+			character->speedY = 6.0f;
 			break;
 	}
 	character->currentState = newState;

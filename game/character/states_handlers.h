@@ -12,12 +12,12 @@
 #include "character.h"
 #include "../input/input.h"
 
-void isWalking_Pos (SCharacter *, SInput *input);
-void isWalking_Sprite (SCharacter *, SInput *input);
+void isWalking_Pos (SCharacter *, SInput *input, uint32_t elapsedTime);
+void isWalking_Sprite (SCharacter *, SInput *input, uint32_t elapsedTime);
 
-void isStanding_Sprite (SCharacter *character, SInput *input);
+void isStanding_Sprite (SCharacter *character, SInput *input, uint32_t elapsedTime);
 
-void isJumping_Pos (SCharacter *character, SInput *input);
-void isJumping_Sprite (SCharacter *character, SInput *input);
+void isJumping_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime);
+void isJumping_Sprite (SCharacter *character, SInput *input, uint32_t elapsedTime);
 
 #endif

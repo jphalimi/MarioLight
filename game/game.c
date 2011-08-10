@@ -33,15 +33,17 @@ SGame *Game_create (void) {
 int Game_launch (SGame *game) {
     SInput input;
 	SCharacter *mario;
-	uint32_t time;
+	uint32_t time, elapsed;
+    int fps = 0;
+    uint32_t time_fps, last_fps = 60;
     
     Input_init(&input);
     
     /* Character setup */
     //Character_create(<#const char *name#>, <#unsigned int nb_sprites#>, <#const char *sprites_folder#>,<#uint32_t sprite_duration#>, <#float max_speed#>, <#float acceleration#>, <#float speed#>)
-    mario = Character_create("Mario", 13, "game/images/mario", 130, 5.0, 0.3, 0.0, 0.0);
+    mario = Character_create("Mario", 13, "game/images/mario", 130, 4.0, 0.2, 0.0, 0.0);
 	
-    time = Time_getTicks();
+    time = time_fps = Time_getTicks();
 	while (!Input_quitRequested(&input)) {
 		/* Input detection */
         Input_handleEvents(&input);
@@ -50,10 +52,20 @@ int Game_launch (SGame *game) {
 		Rendering_resetScreen();
 		
 		/* Update mario sprite */
-		if (Time_getTicks()-time > 17) { /* 1/60 (FPS) = 0.1666666s = 17ms */
-			Character_update(mario, &input);
+        elapsed = Time_getTicks() - time;
+		if (elapsed > 17) { /* 1/60 (FPS) = 0.1666666s = 17ms */
+			Character_update(mario, &input, elapsed);
 			time = Time_getTicks();
-		}
+            fps++;
+            if (Time_getTicks() - time_fps > 1000) {
+                last_fps = fps;
+                Log_output(1, "FPS : %d\n", last_fps);
+                fps = 0;
+                time_fps = Time_getTicks();
+            }
+		} else {
+            SDL_Delay(17 - elapsed);
+        }
 		
 		/* Blitting surfaces and rendering */
 		Rendering_addSurface(game->rendering,
@@ -63,7 +75,7 @@ int Game_launch (SGame *game) {
 		Rendering_render (game->rendering);
 		
 		/* Small pause */
-		SDL_Delay(1);
+		//SDL_Delay(100);
 	}
 	
 	/* Character delete */
