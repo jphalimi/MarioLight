@@ -61,7 +61,7 @@ int Input_handleEvents (SInput *input) {
 
 int Input_isPushed (SInput *input, int type) {
     assert(input != NULL);
-    assert(type < INPUT_EVENT_LENGTH);
+    assert(type < INPUT_EVENT_LENGTH && type >= 0);
     return input->isTriggered[type];
 }
 
@@ -81,4 +81,16 @@ int Input_isClicked (SInput *input, int *x, int *y) {
     }
     
     return 1;
+}
+
+void Input_disableTrigger (SInput *input, int type) {
+	assert(input != NULL);
+	assert(type >= 0 && type < INPUT_EVENT_LENGTH);
+	input->isTriggered[type] = 0;
+}
+
+void Input_enableTrigger (SInput *input, int type) {
+	assert(input != NULL);
+	assert(type >= 0 && type < INPUT_EVENT_LENGTH);
+	input->isTriggered[type] = 1;
 }

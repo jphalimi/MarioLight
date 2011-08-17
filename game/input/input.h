@@ -25,5 +25,7 @@ int Input_quitRequested (const SInput *input);
 int Input_handleEvents (SInput *input);
 int Input_isPushed (SInput *input, int type);
 int Input_isClicked (SInput *input, int *x, int *y);
+void Input_disableTrigger (SInput *input, int type);
+void Input_enableTrigger (SInput *input, int type);
 
 #endif
