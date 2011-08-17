@@ -12,11 +12,12 @@
 #include <SDL/SDL.h>
 #include <stdio.h>
 
-enum { INPUT_LEFT = 0, INPUT_RIGHT, INPUT_UP, INPUT_DOWN, INPUT_A, INPUT_B, INPUT_CLICK };
+enum { INPUT_LEFT = 0, INPUT_RIGHT, INPUT_UP, INPUT_DOWN, INPUT_A, INPUT_B, INPUT_CLICK, INPUT_EVENT_LENGTH };
 
 typedef struct sInput {
     SDL_Event e;
     int type;
+    int isTriggered[INPUT_EVENT_LENGTH];
 } SInput;
 
 void Input_init (SInput *input);

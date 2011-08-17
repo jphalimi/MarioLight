@@ -15,7 +15,7 @@
 #include "../../toolkit/log.h"
 #include "../input/input.h"
 
-#define GRAVITY 0.5
+#define GRAVITY 0.6
 
 void isWalking_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) {
     assert(character != NULL);
@@ -25,7 +25,7 @@ void isWalking_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) 
     float elapsedT = elapsedTime;
     
     /* If something is pushed, we update the speed and spriteDuration */
-    if (isPushedRight) {
+    if (isPushedRight && !isPushedLeft) {
         if (character->speedX < character->maxSpeed) {
             character->speedX += character->acceleration;
             if (character->speedX <= 0) {
@@ -34,7 +34,7 @@ void isWalking_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) 
                 character->spriteDuration -= character->acceleration*10;
             }
         }
-    } else if (isPushedLeft) {
+    } else if (isPushedLeft && !isPushedRight) {
         if (-character->speedX < character->maxSpeed) {
             character->speedX -= character->acceleration;
             if (character->speedX >= 0) {
@@ -45,7 +45,7 @@ void isWalking_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) 
         }
     }
     /* If nothing is pushed, the mario decelerates */
-     else if (!isPushedRight && !isPushedLeft) {
+     else if ((!isPushedRight && !isPushedLeft) || (isPushedLeft && isPushedRight)) {
         if (character->speedX > 0) {
             newSpeed = character->speedX - character->acceleration;
             if (newSpeed > 0) {
@@ -119,8 +119,34 @@ void isStanding_Sprite (SCharacter *character, SInput *input, uint32_t elapsedTi
 
 void isJumping_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) {
     assert(character != NULL);
+    int isPushedLeft = Input_isPushed(input, INPUT_LEFT);
+    int isPushedRight = Input_isPushed(input, INPUT_RIGHT);
     int isPushedUp = Input_isPushed(input, INPUT_UP);
-    float newPos;
+    float newPos, newSpeed;
+    
+    if (isPushedRight && !isPushedLeft) {
+        if (character->speedX < character->maxSpeed) {
+            character->speedX += character->acceleration;
+        }
+    } else if (isPushedLeft && !isPushedRight) {
+        if (-character->speedX < character->maxSpeed) {
+            character->speedX -= character->acceleration;
+        }
+    }
+    /* If nothing is pushed, the mario decelerates */
+    else if ((!isPushedRight && !isPushedLeft) || (isPushedLeft && isPushedRight)) {
+        if (character->speedX > 0) {
+            newSpeed = character->speedX - character->acceleration;
+            if (newSpeed > 0) {
+                character->speedX = newSpeed;
+            }
+        } else if (character->speedX < 0) {
+            newSpeed = character->speedX + character->acceleration;
+            if (newSpeed < 0) {
+                character->speedX = newSpeed;
+            }
+        }
+    }
     
     if (isPushedUp && character->speedY > 0) {
         character->speedY -= GRAVITY/3;
@@ -131,10 +157,15 @@ void isJumping_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) 
     newPos = character->y + character->speedY;
     if (newPos < 0) {
         character->y = 0;
-        Character_switchState(character, CHARACTER_ISSTANDING);
+        if (character->speedX != 0) {
+            Character_switchState(character, CHARACTER_ISWALKING);
+        } else {
+            Character_switchState(character, CHARACTER_ISSTANDING);
+        }
     } else {
         character->y += character->speedY;
     }
+    character->x += character->speedX;
     character->x = (int)(character->x)%(SDL_GetVideoSurface()->w);
 }
 

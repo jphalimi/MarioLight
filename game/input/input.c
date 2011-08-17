@@ -29,6 +29,30 @@ int Input_handleEvents (SInput *input) {
     unsigned i = 0;
     
     while (SDL_PollEvent(&(input->e))) {
+        // If this is a keyboard press event
+        if (input->e.type == SDL_KEYDOWN) {
+            switch (input->e.key.keysym.sym) {
+                case SDLK_LEFT:		input->isTriggered[INPUT_LEFT] = 1; break;
+                case SDLK_RIGHT:	input->isTriggered[INPUT_RIGHT] = 1; break;
+                case SDLK_DOWN:		input->isTriggered[INPUT_DOWN] = 1; break;
+                case SDLK_UP:       input->isTriggered[INPUT_UP] = 1; break;
+                case SDLK_w:        input->isTriggered[INPUT_A] = 1; break;
+                case SDLK_x:        input->isTriggered[INPUT_B] = 1; break;
+				default: break;
+            }
+        }
+		// If this is a keyboard release event
+        if (input->e.type == SDL_KEYUP) {
+            switch (input->e.key.keysym.sym) {
+                case SDLK_LEFT:		input->isTriggered[INPUT_LEFT] = 0; break;
+                case SDLK_RIGHT:	input->isTriggered[INPUT_RIGHT] = 0; break;
+                case SDLK_DOWN:		input->isTriggered[INPUT_DOWN] = 0; break;
+                case SDLK_UP:       input->isTriggered[INPUT_UP] = 0; break;
+                case SDLK_w:        input->isTriggered[INPUT_A] = 0; break;
+                case SDLK_x:        input->isTriggered[INPUT_B] = 0; break;
+				default: break;
+            }
+        }
         i++;
     }
     
@@ -37,31 +61,8 @@ int Input_handleEvents (SInput *input) {
 
 int Input_isPushed (SInput *input, int type) {
     assert(input != NULL);
-    
-    if (input->e.type == SDL_KEYDOWN) {
-        switch (type) {
-            case INPUT_LEFT:
-                return input->e.key.keysym.sym == SDLK_LEFT;
-                break;
-            case INPUT_RIGHT:
-                return input->e.key.keysym.sym == SDLK_RIGHT;
-                break;
-            case INPUT_DOWN:
-                return input->e.key.keysym.sym == SDLK_DOWN;
-                break;
-            case INPUT_UP:
-                return input->e.key.keysym.sym == SDLK_UP;
-                break;
-            case INPUT_A:
-                return input->e.key.keysym.sym == SDLK_w;
-                break;
-            case INPUT_B:
-                return input->e.key.keysym.sym == SDLK_x;
-                break;
-        }
-    }
-    
-    return 0;
+    assert(type < INPUT_EVENT_LENGTH);
+    return input->isTriggered[type];
 }
 
 int Input_isClicked (SInput *input, int *x, int *y) {
