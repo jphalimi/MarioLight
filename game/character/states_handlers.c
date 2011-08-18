@@ -157,6 +157,7 @@ void isJumping_Pos (SCharacter *character, SInput *input, uint32_t elapsedTime) 
     newPos = character->y + character->speedY;
     if (newPos < 0) {
         character->y = 0;
+        Input_disableTrigger(input, INPUT_UP);
         if (character->speedX != 0) {
             Character_switchState(character, CHARACTER_ISWALKING);
         } else {
