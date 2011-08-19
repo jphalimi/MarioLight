@@ -16,6 +16,7 @@
 
 void CharacterState_init (SCharacterState *characterState, int initState) {
 	assert(characterState != NULL);
+	assert(initState < CHARACTER_STATES_NB);
 	
 	switch (initState) {
 		case CHARACTER_ISWALKING:

@@ -42,7 +42,7 @@ SCharacter *Character_create (const char *name, unsigned nb_sprites,
 	
 	/* Init character states handlers */
 	for (i = 0; i < CHARACTER_STATES_NB; i++) {
-		CharacterState_init(&(character->states[i]), i);
+		CharacterState_init(character->states+i, i);
 	}
 	return character;
 }

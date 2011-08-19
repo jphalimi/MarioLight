@@ -30,16 +30,22 @@ game/time/time.o: game/time/time.c
 game/input/input.o: game/input/input.c
 	gcc game/input/input.c -c -o game/input/input.o -Wall -Wextra -O3 `sdl-config --cflags` -g
 
+game/level/level.o: game/level/level.c
+	gcc game/level/level.c -c -o game/level/level.o -Wall -Wextra -O3 `sdl-config --cflags` -g
+
+game/level/levelstate.o: game/level/levelstate.c
+	gcc game/level/levelstate.c -c -o game/level/levelstate.o -Wall -Wextra -O3 `sdl-config --cflags` -g
+
 ./main.o: ./main.c
 	gcc ./main.c -c -o ./main.o -Wall -Wextra -O3 `sdl-config --cflags` -g
 
-marioLight:  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o ./main.o
-	gcc  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o ./main.o -o marioLight -Wall -Wextra -O3 `sdl-config --cflags` -g `sdl-config --libs` -lSDL_image
+marioLight:  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o ./main.o
+	gcc  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o ./main.o -o marioLight -Wall -Wextra -O3 `sdl-config --cflags` -g `sdl-config --libs` -lSDL_image
 
 count:
 	@echo "Project count :"
 	@wc -l `find . -iname "*.[ch]"`
 
 clean:
-	rm -rf  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o ./main.o marioLight
+	rm -rf  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/character/states_handlers.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o ./main.o marioLight
 	@./generate.sh
