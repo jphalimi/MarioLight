@@ -90,6 +90,11 @@ void Character_updateSprite (SCharacter *character, SInput *input, uint32_t elap
 void Character_setCurrentState (SCharacter *character, unsigned currentState);
 unsigned Character_getCurrentState (const SCharacter *character);
 
+void Character_setUpdatePosHandler (SCharacter *character, int state, characterState_fct handler);
+void Character_setUpdateSpriteHandler (SCharacter *character, int state, characterState_fct handler);
+
+void Character_setScheme (SCharacter *character, int state, unsigned *scheme, unsigned schemeSize);
+
 void Character_switchState (SCharacter *character, unsigned newState);
 
 void Character_setLastDirection (SCharacter *character, int value);

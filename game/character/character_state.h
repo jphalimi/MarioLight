@@ -33,15 +33,20 @@ typedef struct sCharacterState {
 	unsigned schemeSize;		/* what is the scheme table size ? */
 } SCharacterState;
 
-void CharacterState_init (SCharacterState *characterState, int initState);
+void CharacterState_init (SCharacterState *characterState);
 void CharacterState_free (SCharacterState *characterState);
 
 /* If we're switching back to a specific current state already used in the past,
 	then we want to re-init stuff into the struct */
 void CharacterState_reInit (SCharacterState *characterState);
 
+void CharacterState_setUpdatePosHandler (SCharacterState *characterState, characterState_fct updatePos);
 characterState_fct CharacterState_getUpdatePosHandler (const SCharacterState *characterState);
+
+void CharacterState_setUpdateSpriteHandler (SCharacterState *characterState, characterState_fct updateSprite);
 characterState_fct CharacterState_getUpdateSpriteHandler (const SCharacterState *characterState);
+
+void CharacterState_setScheme (SCharacterState *characterState, unsigned *scheme, unsigned schemeSize);
 
 void CharacterState_setCurrentScheme (SCharacterState *characterState, unsigned value);
 unsigned CharacterState_getCurrentScheme (const SCharacterState *characterState);

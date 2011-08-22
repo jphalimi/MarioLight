@@ -14,65 +14,9 @@
 #include "states_handlers.h"
 #include "../../toolkit/log.h"
 
-void CharacterState_init (SCharacterState *characterState, int initState) {
+void CharacterState_init (SCharacterState *characterState) {
 	assert(characterState != NULL);
-	assert(initState < CHARACTER_STATES_NB);
-	
-	switch (initState) {
-		case CHARACTER_ISWALKING:
-		{
-			unsigned schemeTab[] = {1, 3};
-			characterState->schemeSize = sizeof(schemeTab) / sizeof(*schemeTab);
-			characterState->updatePos = isWalking_Pos;
-			characterState->updateSprite = isWalking_Sprite;
-			if (characterState->scheme == NULL) {
-				characterState->scheme = malloc(characterState->schemeSize
-												* sizeof(*characterState->scheme));
-				assert(characterState->scheme != NULL);
-			} else {
-				Log_output(1, "Warning: Attempt to init CharacterState already initialized\n");
-			}
-			memcpy(characterState->scheme, schemeTab,
-				   characterState->schemeSize * sizeof(*characterState->scheme));
-			break;
-		}
-		case CHARACTER_ISSTANDING:
-		{
-			unsigned schemeTab[] = {0};
-			characterState->schemeSize = sizeof(schemeTab) / sizeof(*schemeTab);
-			characterState->updatePos = NULL;
-			characterState->updateSprite = isStanding_Sprite;
-			if (characterState->scheme == NULL) {
-				characterState->scheme = malloc(characterState->schemeSize
-												* sizeof(*characterState->scheme));
-				assert(characterState->scheme != NULL);
-			} else {
-				Log_output(1, "Warning: Attempt to init CharacterState already initialized\n");
-			}
-			memcpy(characterState->scheme, schemeTab,
-				   characterState->schemeSize * sizeof(*characterState->scheme));
-			break;
-		}
-		case CHARACTER_ISJUMPING:
-		{
-			unsigned schemeTab[] = {4};
-			characterState->schemeSize = sizeof(schemeTab) / sizeof(*schemeTab);
-			characterState->updatePos = isJumping_Pos;
-			characterState->updateSprite = isJumping_Sprite;
-			if (characterState->scheme == NULL) {
-				characterState->scheme = malloc(characterState->schemeSize
-												* sizeof(*characterState->scheme));
-				assert(characterState->scheme != NULL);
-			} else {
-				Log_output(1, "Warning: Attempt to init CharacterState already initialized\n");
-			}
-			memcpy(characterState->scheme, schemeTab,
-				   characterState->schemeSize * sizeof(*characterState->scheme));
-			break;
-		}
-		default:
-			break;
-	}
+	memset(characterState, 0, sizeof(*characterState));
 }
 
 void CharacterState_free (SCharacterState *characterState) {
@@ -87,9 +31,19 @@ void CharacterState_reInit (SCharacterState *characterState) {
 	characterState->currentScheme = 0;
 }
 
+void CharacterState_setUpdatePosHandler (SCharacterState *characterState, characterState_fct handler) {
+	assert(characterState != NULL);
+	characterState->updatePos = handler;
+}
+
 characterState_fct CharacterState_getUpdatePosHandler (const SCharacterState *characterState) {
 	assert(characterState != NULL);
 	return characterState->updatePos;
+}
+
+void CharacterState_setUpdateSpriteHandler (SCharacterState *characterState, characterState_fct handler) {
+	assert(characterState != NULL);
+	characterState->updateSprite = handler;
 }
 
 characterState_fct CharacterState_getUpdateSpriteHandler (const SCharacterState *characterState) {
@@ -105,6 +59,17 @@ void CharacterState_setCurrentScheme (SCharacterState *characterState, unsigned 
 		exit (EXIT_FAILURE);
 	}
 	characterState->currentScheme = value;
+}
+
+void CharacterState_setScheme (SCharacterState *characterState, unsigned *scheme, unsigned schemeSize) {
+	assert(characterState != NULL);
+	
+	free(characterState->scheme), characterState->scheme = NULL;
+	
+	characterState->scheme = malloc(schemeSize * sizeof(*characterState->scheme));
+	assert(characterState->scheme != NULL);
+	memcpy(characterState->scheme, scheme, schemeSize * sizeof(*characterState->scheme));
+	characterState->schemeSize = schemeSize;
 }
 
 unsigned CharacterState_getCurrentScheme (const SCharacterState *characterState) {

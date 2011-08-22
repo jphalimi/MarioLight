@@ -40,10 +40,6 @@ SCharacter *Character_create (const char *name, unsigned nb_sprites,
 	Character_setCurrentState(character, CHARACTER_ISSTANDING);
 	Character_setLastDirection(character, DIR_RIGHT);
 	
-	/* Init character states handlers */
-	for (i = 0; i < CHARACTER_STATES_NB; i++) {
-		CharacterState_init(character->states+i, i);
-	}
 	return character;
 }
 
@@ -282,6 +278,24 @@ void Character_setCurrentState (SCharacter *character, unsigned currentState) {
 unsigned Character_getCurrentState (const SCharacter *character) {
 	assert(character != NULL);
 	return character->currentState;
+}
+
+void Character_setUpdatePosHandler (SCharacter *character, int state, characterState_fct handler) {
+	assert(character != NULL);
+	assert(state < CHARACTER_STATES_NB);
+	CharacterState_setUpdatePosHandler(character->states+state, handler);
+}
+
+void Character_setUpdateSpriteHandler (SCharacter *character, int state, characterState_fct handler) {
+	assert(character != NULL);
+	assert(state < CHARACTER_STATES_NB);
+	CharacterState_setUpdateSpriteHandler(character->states+state, handler);
+}
+
+void Character_setScheme (SCharacter *character, int state, unsigned *scheme, unsigned schemeSize) {
+	assert(character != NULL);
+	assert(state < CHARACTER_STATES_NB);
+	CharacterState_setScheme(character->states + state, scheme, schemeSize);
 }
 
 void Character_switchState (SCharacter *character, unsigned newState) {

@@ -13,6 +13,8 @@
 #include <SDL/SDL.h>
 #include "game.h"
 #include "character/character.h"
+#include "character/character_state.h"
+#include "character/states_handlers.h"
 #include "config/config.h"
 #include "rendering/rendering.h"
 #include "time/time.h"
@@ -42,6 +44,27 @@ int Game_launch (SGame *game) {
     /* Character setup */
     //Character_create(<#const char *name#>, <#unsigned int nb_sprites#>, <#const char *sprites_folder#>,<#uint32_t sprite_duration#>, <#float max_speed#>, <#float acceleration#>, <#float speed#>)
     mario = Character_create("Mario", 13, "game/images/mario", 130, 5.0, 0.3, 0.0, 0.0);
+    
+    /* Walking handling */
+    {
+        int scheme[] = {1, 3};
+        Character_setScheme (mario, CHARACTER_ISWALKING, scheme, sizeof(scheme) / sizeof(*scheme));
+        Character_setUpdatePosHandler   (mario, CHARACTER_ISWALKING, CS_isWalking_Pos);
+        Character_setUpdateSpriteHandler(mario, CHARACTER_ISWALKING, CS_isWalking_Sprite);
+    }
+    /* Jumping handling */
+    {
+        int scheme[] = {4};
+        Character_setScheme (mario, CHARACTER_ISJUMPING, scheme, sizeof(scheme) / sizeof(*scheme));
+        Character_setUpdatePosHandler   (mario, CHARACTER_ISJUMPING, CS_isJumping_Pos);
+        Character_setUpdateSpriteHandler(mario, CHARACTER_ISJUMPING, CS_isJumping_Sprite);
+    }
+    /* Standing handling */
+    {
+        int scheme[] = {0};
+        Character_setScheme (mario, CHARACTER_ISSTANDING, scheme, sizeof(scheme) / sizeof(*scheme));
+        Character_setUpdateSpriteHandler(mario, CHARACTER_ISSTANDING, CS_isStanding_Sprite);
+    }
 	
     time = time_fps = Time_getTicks();
 	while (!Input_quitRequested(&input)) {
@@ -68,6 +91,7 @@ int Game_launch (SGame *game) {
         }
 		
 		/* Blitting surfaces and rendering */
+        
 		Rendering_addSurface(game->rendering,
 							 Character_getX(mario),
 							 Character_getY(mario),
