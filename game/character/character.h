@@ -65,6 +65,8 @@ SRenderingSurface *Character_getCurrentSprite (const SCharacter *character);
 void Character_setSpriteDuration (SCharacter *character, float spriteDuration);
 float Character_getSpriteDuration (const SCharacter *character);
 
+void Character_resetSpriteDuration (SCharacter *character);
+
 void Character_setOriginalSpriteDuration (SCharacter *character, float spriteDuration);
 float Character_getOriginalSpriteDuration (const SCharacter *character);
 

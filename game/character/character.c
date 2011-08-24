@@ -153,6 +153,11 @@ float Character_getSpriteDuration (const SCharacter *character) {
 	return character->spriteDuration;
 }
 
+void Character_resetSpriteDuration (SCharacter *character) {
+	assert(character != NULL);
+	character->spriteDuration = character->originalSpriteDuration;
+}
+
 void Character_setOriginalSpriteDuration (SCharacter *character, float duration) {
 	assert(character != NULL);
 	character->originalSpriteDuration = duration;
@@ -300,11 +305,11 @@ void Character_setScheme (SCharacter *character, int state, unsigned *scheme, un
 
 void Character_switchState (SCharacter *character, unsigned newState) {
 	assert(character != NULL);
+	Character_resetSpriteDuration(character);
 	switch (newState) {
 		case CHARACTER_ISSTANDING:
 			character->speedX = 0;
 			character->speedY = 0;
-			character->spriteDuration = character->originalSpriteDuration;
 			break;
 		case CHARACTER_ISWALKING:
 			character->speedY = 0;
