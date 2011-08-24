@@ -221,7 +221,7 @@ void Character_updateState (SCharacter *character, SInput *input) {
 	
 	switch (character->currentState) {
 		case CHARACTER_ISWALKING:
-			if (Input_isPushed(input, INPUT_UP)) {
+			if (Input_isPushed(input, INPUT_A)) {
 				Character_switchState(character, CHARACTER_ISJUMPING);
 			}
 			break;
@@ -232,7 +232,7 @@ void Character_updateState (SCharacter *character, SInput *input) {
 			if (Input_isPushed(input, INPUT_RIGHT)) {
 				Character_switchState(character, CHARACTER_ISWALKING);
 			}
-			if (Input_isPushed(input, INPUT_UP)) {
+			if (Input_isPushed(input, INPUT_A)) {
 				Character_switchState(character, CHARACTER_ISJUMPING);
 			}
 			break;

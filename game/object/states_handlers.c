@@ -21,12 +21,19 @@ void OS_isWalking_Pos (SObject *object, SInput *input, uint32_t elapsedTime) {
     assert(object != NULL);
     int isPushedRight = Input_isPushed(input, INPUT_RIGHT);
     int isPushedLeft = Input_isPushed(input, INPUT_LEFT);
+    int isPushedB = Input_isPushed(input, INPUT_B);
     float newSpeed;
     float elapsedT = elapsedTime;
+    float maxSpeedX = object->maxSpeed/1.37;
+    
+    if (isPushedB) {
+        maxSpeedX = object->maxSpeed;
+        Log_output(1, "pushed B...\n");
+    }
     
     /* If something is pushed, we update the speed and spriteDuration */
     if (isPushedRight && !isPushedLeft) {
-        if (object->speedX < object->maxSpeed) {
+        if (object->speedX < maxSpeedX) {
             object->speedX += object->acceleration;
             if (object->speedX <= 0) {
                 object->spriteDuration = object->originalSpriteDuration;
@@ -35,7 +42,7 @@ void OS_isWalking_Pos (SObject *object, SInput *input, uint32_t elapsedTime) {
             }
         }
     } else if (isPushedLeft && !isPushedRight) {
-        if (-object->speedX < object->maxSpeed) {
+        if (-object->speedX < maxSpeedX) {
             object->speedX -= object->acceleration;
             if (object->speedX >= 0) {
                 object->spriteDuration = object->originalSpriteDuration;
@@ -122,14 +129,23 @@ void OS_isJumping_Pos (SObject *object, SInput *input, uint32_t elapsedTime) {
     int isPushedLeft = Input_isPushed(input, INPUT_LEFT);
     int isPushedRight = Input_isPushed(input, INPUT_RIGHT);
     int isPushedUp = Input_isPushed(input, INPUT_UP);
+    int isPushedA = Input_isPushed(input, INPUT_A);
     float newPos, newSpeed;
+    float maxSpeedX;
+    
+    if (isPushedA) {
+        maxSpeedX = object->maxSpeed;
+        Log_output(1, "A is pressed !\n");
+    } else {
+        maxSpeedX = object->maxSpeed/2;
+    }
     
     if (isPushedRight && !isPushedLeft) {
-        if (object->speedX < object->maxSpeed) {
+        if (object->speedX < maxSpeedX) {
             object->speedX += object->acceleration;
         }
     } else if (isPushedLeft && !isPushedRight) {
-        if (-object->speedX < object->maxSpeed) {
+        if (-object->speedX < maxSpeedX) {
             object->speedX -= object->acceleration;
         }
     }

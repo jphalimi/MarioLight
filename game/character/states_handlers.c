@@ -21,27 +21,41 @@ void CS_isWalking_Pos (SCharacter *character, SInput *input, uint32_t elapsedTim
     assert(character != NULL);
     int isPushedRight = Input_isPushed(input, INPUT_RIGHT);
     int isPushedLeft = Input_isPushed(input, INPUT_LEFT);
+    int isPushedB = Input_isPushed(input, INPUT_B);
     float newSpeed;
     float elapsedT = elapsedTime;
+    float maxSpeedX;
+    
+    if (isPushedB) {
+        maxSpeedX = character->maxSpeed*1.5;
+    } else {
+        maxSpeedX = character->maxSpeed;
+    }
     
     /* If something is pushed, we update the speed and spriteDuration */
     if (isPushedRight && !isPushedLeft) {
-        if (character->speedX < character->maxSpeed) {
+        if (character->speedX < maxSpeedX) {
             character->speedX += character->acceleration;
             if (character->speedX <= 0) {
                 character->spriteDuration = character->originalSpriteDuration;
             } else {
                 character->spriteDuration -= character->acceleration*10;
             }
+        } else if (character->speedX > maxSpeedX) {
+            character->speedX -= character->acceleration;
+            character->spriteDuration += character->acceleration*10;
         }
     } else if (isPushedLeft && !isPushedRight) {
-        if (-character->speedX < character->maxSpeed) {
+        if (-character->speedX < maxSpeedX) {
             character->speedX -= character->acceleration;
             if (character->speedX >= 0) {
                 character->spriteDuration = character->originalSpriteDuration;
             } else {
                 character->spriteDuration -= character->acceleration*10;
             }
+        } else if (-character->speedX > maxSpeedX) {
+            character->speedX += character->acceleration;
+            character->spriteDuration += character->acceleration*10;
         }
     }
     /* If nothing is pushed, the mario decelerates */
@@ -121,15 +135,23 @@ void CS_isJumping_Pos (SCharacter *character, SInput *input, uint32_t elapsedTim
     assert(character != NULL);
     int isPushedLeft = Input_isPushed(input, INPUT_LEFT);
     int isPushedRight = Input_isPushed(input, INPUT_RIGHT);
-    int isPushedUp = Input_isPushed(input, INPUT_UP);
+    int isPushedA = Input_isPushed(input, INPUT_A);
+    int isPushedB = Input_isPushed(input, INPUT_B);
     float newPos, newSpeed;
+    float maxSpeedX;
+    
+    if (isPushedB) {
+        maxSpeedX = character->maxSpeed;
+    } else {
+        maxSpeedX = character->maxSpeed/1.5;
+    }
     
     if (isPushedRight && !isPushedLeft) {
-        if (character->speedX < character->maxSpeed) {
+        if (character->speedX < maxSpeedX) {
             character->speedX += character->acceleration;
         }
     } else if (isPushedLeft && !isPushedRight) {
-        if (-character->speedX < character->maxSpeed) {
+        if (-character->speedX < maxSpeedX) {
             character->speedX -= character->acceleration;
         }
     }
@@ -148,7 +170,7 @@ void CS_isJumping_Pos (SCharacter *character, SInput *input, uint32_t elapsedTim
         }
     }
     
-    if (isPushedUp && character->speedY > 0) {
+    if (isPushedA && character->speedY > 0) {
         character->speedY -= GRAVITY/3;
     } else {
         character->speedY -= GRAVITY;
@@ -157,7 +179,7 @@ void CS_isJumping_Pos (SCharacter *character, SInput *input, uint32_t elapsedTim
     newPos = character->y + character->speedY;
     if (newPos < 0) {
         character->y = 0;
-        Input_disableTrigger(input, INPUT_UP);
+        Input_disableTrigger(input, INPUT_A);
         if (character->speedX != 0) {
             Character_switchState(character, CHARACTER_ISWALKING);
         } else {

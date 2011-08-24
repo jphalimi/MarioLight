@@ -36,11 +36,12 @@ int Input_handleEvents (SInput *input) {
                 case SDLK_RIGHT:	input->isTriggered[INPUT_RIGHT] = 1; break;
                 case SDLK_DOWN:		input->isTriggered[INPUT_DOWN] = 1; break;
                 case SDLK_UP:       input->isTriggered[INPUT_UP] = 1; break;
-                case SDLK_w:        input->isTriggered[INPUT_A] = 1; break;
+                case SDLK_z:        input->isTriggered[INPUT_A] = 1; break;
                 case SDLK_x:        input->isTriggered[INPUT_B] = 1; break;
 				default: break;
             }
         }
+		
 		// If this is a keyboard release event
         if (input->e.type == SDL_KEYUP) {
             switch (input->e.key.keysym.sym) {
@@ -48,7 +49,7 @@ int Input_handleEvents (SInput *input) {
                 case SDLK_RIGHT:	input->isTriggered[INPUT_RIGHT] = 0; break;
                 case SDLK_DOWN:		input->isTriggered[INPUT_DOWN] = 0; break;
                 case SDLK_UP:       input->isTriggered[INPUT_UP] = 0; break;
-                case SDLK_w:        input->isTriggered[INPUT_A] = 0; break;
+                case SDLK_z:        input->isTriggered[INPUT_A] = 0; break;
                 case SDLK_x:        input->isTriggered[INPUT_B] = 0; break;
 				default: break;
             }

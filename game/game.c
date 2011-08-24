@@ -35,7 +35,7 @@ SGame *Game_create (void) {
 
 int Game_launch (SGame *game) {
     SInput input;
-	SCharacter *mario;
+	SCharacter *mario, *koopa;
 	uint32_t time, elapsed;
     int fps = 0;
     uint32_t time_fps, last_fps = 60;

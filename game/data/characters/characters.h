@@ -12,5 +12,6 @@
 #include "../../character/character.h"
 
 SCharacter *Mario_create (void);
+SCharacter *Koopa_create (void);
 
 #endif
