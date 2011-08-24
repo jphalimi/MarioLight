@@ -9,15 +9,19 @@
 #ifndef H_CHARACTER_STATESHANDLERS
 #define H_CHARACTER_STATESHANDLERS
 
-#include "character.h"
-#include "../input/input.h"
+#include "../../character/character.h"
+#include "../../input/input.h"
 
-void CS_playerWalkingPos (SCharacter *, SInput *input, uint32_t elapsedTime);
-void CS_playerWalkingSprite (SCharacter *, SInput *input, uint32_t elapsedTime);
+/* Player callbacks */
+void CS_playerWalkingPos (SCharacter *character, SInput *input, uint32_t elapsedTime);
+void CS_playerWalkingSprite (SCharacter *character, SInput *input, uint32_t elapsedTime);
 
 void CS_standingSprite (SCharacter *character, SInput *input, uint32_t elapsedTime);
 
 void CS_playerJumpingPos (SCharacter *character, SInput *input, uint32_t elapsedTime);
 void CS_playerJumpingSprite (SCharacter *character, SInput *input, uint32_t elapsedTime);
 
+/* Character callbacks */
+void CS_characterWalkingPos (SCharacter *character, SInput *input, uint32_t elapsedTime);
+void CS_characterWalkingSprite (SCharacter *character, SInput *input, uint32_t elapsedTime);
 #endif

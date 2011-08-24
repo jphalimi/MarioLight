@@ -61,13 +61,17 @@ int Input_handleEvents (SInput *input) {
 }
 
 int Input_isPushed (SInput *input, int type) {
-    assert(input != NULL);
+	if (input == NULL) {
+		return 0;
+	}
     assert(type < INPUT_EVENT_LENGTH && type >= 0);
     return input->isTriggered[type];
 }
 
 int Input_isClicked (SInput *input, int *x, int *y) {
-    assert(input != NULL);
+    if (input == NULL) {
+		return 0;
+	}
     
     if (input->e.type != SDL_MOUSEBUTTONUP) {
         return 0;

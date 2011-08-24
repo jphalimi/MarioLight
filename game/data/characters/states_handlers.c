@@ -10,10 +10,10 @@
 #include <stdio.h>
 #include <assert.h>
 #include "states_handlers.h"
-#include "character.h"
-#include "../time/time.h"
-#include "../../toolkit/log.h"
-#include "../input/input.h"
+#include "../../character/character.h"
+#include "../../time/time.h"
+#include "../../../toolkit/log.h"
+#include "../../input/input.h"
 
 #define GRAVITY 0.6
 
@@ -22,9 +22,7 @@ void CS_playerWalkingPos (SCharacter *character, SInput *input, uint32_t elapsed
     int isPushedRight = Input_isPushed(input, INPUT_RIGHT);
     int isPushedLeft = Input_isPushed(input, INPUT_LEFT);
     int isPushedB = Input_isPushed(input, INPUT_B);
-    float newSpeed;
-    float elapsedT = elapsedTime;
-    float maxSpeedX;
+    float newSpeed, maxSpeedX;
     
     if (isPushedB) {
         maxSpeedX = character->maxSpeed*1.5;
@@ -78,12 +76,14 @@ void CS_playerWalkingPos (SCharacter *character, SInput *input, uint32_t elapsed
             }
         }
     }
-	
-    if (character->speedX < 0) {
-        elapsedT = -elapsedT;
-    }
+    
     character->x += character->speedX;
     character->x = (int)(character->x)%(SDL_GetVideoSurface()->w);
+    if (character->x < 0) {
+        character->x = SDL_GetVideoSurface()->w;
+    }
+    
+    (void) elapsedTime;
 }
 
 void CS_playerWalkingSprite (SCharacter *character, SInput *input, uint32_t elapsedTime) {
@@ -115,6 +115,7 @@ void CS_playerWalkingSprite (SCharacter *character, SInput *input, uint32_t elap
 		character->lastUpdateTime = Time_getTicks();
 	}
     
+    (void) elapsedTime;
     (void) input;
 }
 
@@ -128,6 +129,7 @@ void CS_standingSprite (SCharacter *character, SInput *input, uint32_t elapsedTi
         character->currentSprite = currentState->scheme[0]+7;
     }
     
+    (void) elapsedTime;
     (void) input;
 }
 
@@ -190,6 +192,8 @@ void CS_playerJumpingPos (SCharacter *character, SInput *input, uint32_t elapsed
     }
     character->x += character->speedX;
     character->x = (int)(character->x)%(SDL_GetVideoSurface()->w);
+    
+    (void) elapsedTime;
 }
 
 void CS_playerJumpingSprite (SCharacter *character, SInput *input, uint32_t elapsedTime) {
@@ -202,5 +206,48 @@ void CS_playerJumpingSprite (SCharacter *character, SInput *input, uint32_t elap
         character->currentSprite = currentState->scheme[0]+8;
     }
     
+    (void) elapsedTime;
     (void) input;
+}
+
+void CS_characterWalkingPos (SCharacter *character, SInput *input, uint32_t elapsedTime) {
+    assert(character != NULL);
+    
+    character->x += character->speedX;
+    
+    character->x = (int)(character->x)%(SDL_GetVideoSurface()->w);
+    if (character->x < 0) {
+        character->x = SDL_GetVideoSurface()->w;
+    }
+    
+    (void) input;
+    (void) elapsedTime;
+}
+
+void CS_characterWalkingSprite (SCharacter *character, SInput *input, uint32_t elapsedTime) {
+    assert(character != NULL);
+    SCharacterState *currentState = &character->states[character->currentState];
+    unsigned currentScheme = CharacterState_getCurrentScheme(currentState);
+    unsigned schemeSize = CharacterState_getSchemeSize(currentState);
+
+    assert(schemeSize != 0);
+    uint32_t time_diff = Time_getTicks() - character->lastUpdateTime;
+    
+    //Log_output(1, "spriteDuration : %f, currentScheme : %u\n", character->spriteDuration, currentScheme);
+	
+    if (time_diff > character->spriteDuration) {
+        currentScheme++;
+        currentScheme %= schemeSize;
+        if (character->lastDirection == DIR_RIGHT) {
+            character->currentSprite = currentState->scheme[currentScheme]-2;
+        } else {
+            character->currentSprite = currentState->scheme[currentScheme];
+        }
+        CharacterState_setCurrentScheme(currentState, currentScheme);
+		character->lastUpdateTime = Time_getTicks();
+	}
+    
+    (void) elapsedTime;
+    (void) input;
+    
 }

@@ -34,6 +34,7 @@ typedef struct sCharacter {
     SCharacterState states[CHARACTER_STATES_NB];
     unsigned currentState;
     int lastDirection;
+    int isPlayable;
 } SCharacter;
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
@@ -101,6 +102,10 @@ void Character_switchState (SCharacter *character, unsigned newState);
 
 void Character_setLastDirection (SCharacter *character, int value);
 int Character_getLastDirection (const SCharacter *character);
+
+void Character_enablePlayable (SCharacter *character);
+void Character_disablePlayable (SCharacter *character);
+int Character_isPlayable (const SCharacter *character);
 
 void Character_destroy (SCharacter *character);
 

@@ -11,7 +11,7 @@
 #include <assert.h>
 #include <string.h>
 #include "character_state.h"
-#include "states_handlers.h"
+#include "../data/characters/states_handlers.h"
 #include "../../toolkit/log.h"
 
 void CharacterState_init (SCharacterState *characterState) {

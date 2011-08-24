@@ -12,14 +12,13 @@
 #include <sys/stat.h>
 #include "character.h"
 #include "character_state.h"
-#include "states_handlers.h"
+#include "../data/characters/states_handlers.h"
 #include "../../toolkit/log.h"
 #include "../time/time.h"
 
 SCharacter *Character_create (const char *name, unsigned nb_sprites,
 							  const char *sprites_folder, float sprite_duration,
 							  float max_speed, float acceleration, float speedX, float speedY) {
-	unsigned i;
 	SCharacter *character = malloc(sizeof(*character));
 	assert(character != NULL);
 	memset(character, 0, sizeof(*character));
@@ -39,6 +38,7 @@ SCharacter *Character_create (const char *name, unsigned nb_sprites,
 	Character_setCurrentSpriteNumber(character, 0);
 	Character_setCurrentState(character, CHARACTER_ISSTANDING);
 	Character_setLastDirection(character, DIR_RIGHT);
+	Character_disablePlayable(character);
 	
 	return character;
 }
@@ -215,6 +215,9 @@ float Character_getSpeedY (const SCharacter *character) {
 }
 
 void Character_update (SCharacter *character, SInput *input, uint32_t elapsedTime) {
+	if (!Character_isPlayable(character)) {
+		input = NULL;
+	}
 	Character_updateState (character, input);
 	Character_updateDirection (character, input);
 	Character_updatePosition(character, input, elapsedTime);
@@ -222,7 +225,7 @@ void Character_update (SCharacter *character, SInput *input, uint32_t elapsedTim
 }
 
 void Character_updateState (SCharacter *character, SInput *input) {
-	assert(character != NULL && input != NULL);
+	assert(character != NULL);
 	
 	switch (character->currentState) {
 		case CHARACTER_ISWALKING:
@@ -245,7 +248,7 @@ void Character_updateState (SCharacter *character, SInput *input) {
 }
 
 void Character_updateDirection (SCharacter *character, SInput *input) {
-	assert(character != NULL && input != NULL);
+	assert(character != NULL);
 	
 	if (Input_isPushed(input, INPUT_LEFT)) {
 		character->lastDirection = DIR_LEFT;
@@ -317,7 +320,7 @@ void Character_switchState (SCharacter *character, unsigned newState) {
 			character->speedY = 6.0f;
 			break;
 	}
-	character->currentState = newState;
+	Character_setCurrentState(character, newState);
 }
 
 void Character_setLastDirection (SCharacter *character, int value) {
@@ -328,6 +331,21 @@ void Character_setLastDirection (SCharacter *character, int value) {
 int Character_getLastDirection (const SCharacter *character) {
 	assert(character != NULL);
 	return character->lastDirection;
+}
+
+void Character_enablePlayable (SCharacter *character) {
+	assert(character != NULL);
+	character->isPlayable = 1;
+}
+
+void Character_disablePlayable (SCharacter *character) {
+	assert(character != NULL);
+	character->isPlayable = 0;
+}
+
+int Character_isPlayable (const SCharacter *character) {
+	assert(character != NULL);
+	return character->isPlayable;
 }
 
 void Character_destroy (SCharacter *character) {
