@@ -13,14 +13,14 @@
 #include <SDL/SDL.h>
 #include "game.h"
 #include "character/character.h"
-#include "character/character_state.h"
+#include "object/object.h"
 #include "config/config.h"
 #include "rendering/rendering.h"
 #include "time/time.h"
 #include "input/input.h"
 #include "../toolkit/log.h"
 #include "data/characters/characters.h"
-#include "data/characters/states_handlers.h"
+#include "data/objects/objects.h"
 
 SGame *Game_create (void) {
     SGame *game = malloc(sizeof(*game));
@@ -36,6 +36,7 @@ SGame *Game_create (void) {
 int Game_launch (SGame *game) {
     SInput input;
 	SCharacter *mario, *koopa;
+    SObject *interr;
 	uint32_t time, elapsed;
     int fps = 0;
     uint32_t time_fps, last_fps = 60;
@@ -44,6 +45,7 @@ int Game_launch (SGame *game) {
     
     mario = Mario_create ();
     koopa = Koopa_create ();
+    interr = InterrogationPoint_create ();
 	
     time = time_fps = Time_getTicks();
 	while (!Input_quitRequested(&input)) {
@@ -55,9 +57,10 @@ int Game_launch (SGame *game) {
 		
 		/* Update mario sprite */
         elapsed = Time_getTicks() - time;
-		if (elapsed > 17) { /* 1/60 (FPS) = 0.1666666s = 17ms */
+		if (elapsed > 10) { /* 1/60 (FPS) = 0.1666666s = 17ms */
 			Character_update(mario, &input, elapsed);
             Character_update(koopa, &input, elapsed);
+            Object_update(interr, &input, elapsed);
 			time = Time_getTicks();
             fps++;
             if (Time_getTicks() - time_fps > 1000) {
@@ -67,7 +70,7 @@ int Game_launch (SGame *game) {
                 time_fps = Time_getTicks();
             }
 		} else {
-            SDL_Delay(17 - elapsed);
+            SDL_Delay(10 - elapsed);
         }
 		
 		/* Blitting surfaces and rendering */
@@ -80,6 +83,10 @@ int Game_launch (SGame *game) {
                              Character_getX(koopa),
                              Character_getY(koopa),
                              Character_getCurrentSprite(koopa));
+        Rendering_addSurface(game->rendering,
+                             Object_getX(interr),
+                             Object_getY(interr),
+                             Object_getCurrentSprite(interr));
 		Rendering_render (game->rendering);
 		
 		/* Small pause */
@@ -88,6 +95,8 @@ int Game_launch (SGame *game) {
 	
 	/* Character delete */
 	Character_destroy(mario);
+    Character_destroy(koopa);
+    Object_destroy(interr);
     
     return 0;
 }

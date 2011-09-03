@@ -11,15 +11,15 @@
 #include <string.h>
 #include <sys/stat.h>
 #include "object.h"
+#include "../character/character.h"
 #include "object_state.h"
-#include "states_handlers.h"
+#include "../data/objects/states_handlers.h"
 #include "../../toolkit/log.h"
 #include "../time/time.h"
 
 SObject *Object_create (const char *name, unsigned nb_sprites,
 							  const char *sprites_folder, float sprite_duration,
 							  float max_speed, float acceleration, float speedX, float speedY) {
-	unsigned i;
 	SObject *object = malloc(sizeof(*object));
 	assert(object != NULL);
 	memset(object, 0, sizeof(*object));
@@ -38,11 +38,9 @@ SObject *Object_create (const char *name, unsigned nb_sprites,
 	Object_setSpeed(object, speedX, speedY);
 	Object_setCurrentSpriteNumber(object, 0);
 	Object_setCurrentState(object, OBJECT_ISSTANDING);
+	Object_setLastDirection(object, DIR_RIGHT);
+	Object_disablePlayable(object);
 	
-	/* Init object states handlers */
-	for (i = 0; i < OBJECT_STATES_NB; i++) {
-		ObjectState_init(object->states+i, i);
-	}
 	return object;
 }
 
@@ -156,6 +154,11 @@ float Object_getSpriteDuration (const SObject *object) {
 	return object->spriteDuration;
 }
 
+void Object_resetSpriteDuration (SObject *object) {
+	assert(object != NULL);
+	object->spriteDuration = object->originalSpriteDuration;
+}
+
 void Object_setOriginalSpriteDuration (SObject *object, float duration) {
 	assert(object != NULL);
 	object->originalSpriteDuration = duration;
@@ -213,6 +216,9 @@ float Object_getSpeedY (const SObject *object) {
 }
 
 void Object_update (SObject *object, SInput *input, uint32_t elapsedTime) {
+	if (!Object_isPlayable(object)) {
+		input = NULL;
+	}
 	Object_updateState (object, input);
 	Object_updateDirection (object, input);
 	Object_updatePosition(object, input, elapsedTime);
@@ -220,17 +226,37 @@ void Object_update (SObject *object, SInput *input, uint32_t elapsedTime) {
 }
 
 void Object_updateState (SObject *object, SInput *input) {
-	assert(object != NULL && input != NULL);
+	assert(object != NULL);
 	
-	(void) object;
-    (void) input;
+	switch (object->currentState) {
+		case OBJECT_ISWALKING:
+			if (Input_isPushed(input, INPUT_A)) {
+				Object_switchState(object, OBJECT_ISJUMPING);
+			}
+			break;
+		case OBJECT_ISSTANDING:
+			if (Input_isPushed(input, INPUT_LEFT)) {
+				Object_switchState(object, OBJECT_ISWALKING);
+			}
+			if (Input_isPushed(input, INPUT_RIGHT)) {
+				Object_switchState(object, OBJECT_ISWALKING);
+			}
+			if (Input_isPushed(input, INPUT_A)) {
+				Object_switchState(object, OBJECT_ISJUMPING);
+			}
+			break;
+	}
 }
 
 void Object_updateDirection (SObject *object, SInput *input) {
-	assert(object != NULL && input != NULL);
+	assert(object != NULL);
 	
-    (void) object;
-    (void) input;
+	if (Input_isPushed(input, INPUT_LEFT)) {
+		object->lastDirection = DIR_LEFT;
+	}
+	if (Input_isPushed(input, INPUT_RIGHT)) {
+		object->lastDirection = DIR_RIGHT;
+	}
 }
 
 void Object_updatePosition (SObject *object, SInput *input, uint32_t elapsedTime) {
@@ -263,18 +289,40 @@ unsigned Object_getCurrentState (const SObject *object) {
 	return object->currentState;
 }
 
+void Object_setUpdatePosHandler (SObject *object, int state, objectState_fct handler) {
+	assert(object != NULL);
+	assert(state < OBJECT_STATES_NB);
+	ObjectState_setUpdatePosHandler(object->states+state, handler);
+}
+
+void Object_setUpdateSpriteHandler (SObject *object, int state, objectState_fct handler) {
+	assert(object != NULL);
+	assert(state < OBJECT_STATES_NB);
+	ObjectState_setUpdateSpriteHandler(object->states+state, handler);
+}
+
+void Object_setScheme (SObject *object, int state, unsigned *scheme, unsigned schemeSize) {
+	assert(object != NULL);
+	assert(state < OBJECT_STATES_NB);
+    Log_output (1, "Object schemeSize to be set = %u\n", schemeSize);
+	ObjectState_setScheme(object->states + state, scheme, schemeSize);
+}
+
 void Object_switchState (SObject *object, unsigned newState) {
 	assert(object != NULL);
+	Object_resetSpriteDuration(object);
 	switch (newState) {
-		case OBJECT_ISMOVING:
-			object->spriteDuration = object->originalSpriteDuration;
-			break;
 		case OBJECT_ISSTANDING:
+			object->speedX = 0;
 			object->speedY = 0;
-            object->speedX = 0;
+			break;
+		case OBJECT_ISWALKING:
+			object->speedY = 0;
+		case OBJECT_ISJUMPING:
+			object->speedY = 6.0f;
 			break;
 	}
-	object->currentState = newState;
+	Object_setCurrentState(object, newState);
 }
 
 void Object_setLastDirection (SObject *object, int value) {
@@ -285,6 +333,21 @@ void Object_setLastDirection (SObject *object, int value) {
 int Object_getLastDirection (const SObject *object) {
 	assert(object != NULL);
 	return object->lastDirection;
+}
+
+void Object_enablePlayable (SObject *object) {
+	assert(object != NULL);
+	object->isPlayable = 1;
+}
+
+void Object_disablePlayable (SObject *object) {
+	assert(object != NULL);
+	object->isPlayable = 0;
+}
+
+int Object_isPlayable (const SObject *object) {
+	assert(object != NULL);
+	return object->isPlayable;
 }
 
 void Object_destroy (SObject *object) {

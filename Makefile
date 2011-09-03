@@ -27,9 +27,6 @@ game/object/object.o: game/object/object.c
 game/object/object_state.o: game/object/object_state.c
 	gcc game/object/object_state.c -c -o game/object/object_state.o -Wall -Wextra -O3 `sdl-config --cflags` -g
 
-game/object/states_handlers.o: game/object/states_handlers.c
-	gcc game/object/states_handlers.c -c -o game/object/states_handlers.o -Wall -Wextra -O3 `sdl-config --cflags` -g
-
 game/time/time.o: game/time/time.c
 	gcc game/time/time.c -c -o game/time/time.o -Wall -Wextra -O3 `sdl-config --cflags` -g
 
@@ -48,16 +45,22 @@ game/data/characters/characters.o: game/data/characters/characters.c
 game/data/characters/states_handlers.o: game/data/characters/states_handlers.c
 	gcc game/data/characters/states_handlers.c -c -o game/data/characters/states_handlers.o -Wall -Wextra -O3 `sdl-config --cflags` -g
 
+game/data/objects/objects.o: game/data/objects/objects.c
+	gcc game/data/objects/objects.c -c -o game/data/objects/objects.o -Wall -Wextra -O3 `sdl-config --cflags` -g
+
+game/data/objects/states_handlers.o: game/data/objects/states_handlers.c
+	gcc game/data/objects/states_handlers.c -c -o game/data/objects/states_handlers.o -Wall -Wextra -O3 `sdl-config --cflags` -g
+
 ./main.o: ./main.c
 	gcc ./main.c -c -o ./main.o -Wall -Wextra -O3 `sdl-config --cflags` -g
 
-marioLight:  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/object/object.o game/object/object_state.o game/object/states_handlers.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o game/data/characters/characters.o game/data/characters/states_handlers.o ./main.o
-	gcc  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/object/object.o game/object/object_state.o game/object/states_handlers.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o game/data/characters/characters.o game/data/characters/states_handlers.o ./main.o -o marioLight -Wall -Wextra -O3 `sdl-config --cflags` -g `sdl-config --libs` -lSDL_image
+marioLight:  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/object/object.o game/object/object_state.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o game/data/characters/characters.o game/data/characters/states_handlers.o game/data/objects/objects.o game/data/objects/states_handlers.o ./main.o
+	gcc  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/object/object.o game/object/object_state.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o game/data/characters/characters.o game/data/characters/states_handlers.o game/data/objects/objects.o game/data/objects/states_handlers.o ./main.o -o marioLight -Wall -Wextra -O3 `sdl-config --cflags` -g `sdl-config --libs` -lSDL_image
 
 count:
 	@echo "Project count :"
 	@wc -l `find . -iname "*.[ch]"`
 
 clean:
-	rm -rf  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/object/object.o game/object/object_state.o game/object/states_handlers.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o game/data/characters/characters.o game/data/characters/states_handlers.o ./main.o marioLight
+	rm -rf  toolkit/linklist.o toolkit/log.o game/game.o game/rendering/rendering.o game/config/config.o game/character/character.o game/character/character_state.o game/object/object.o game/object/object_state.o game/time/time.o game/input/input.o game/level/level.o game/level/levelstate.o game/data/characters/characters.o game/data/characters/states_handlers.o game/data/objects/objects.o game/data/objects/states_handlers.o ./main.o marioLight
 	@./generate.sh

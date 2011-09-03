@@ -1,6 +1,6 @@
 #!/bin/bash
 
-directories="toolkit game game/rendering game/config game/character game/object game/time game/input game/level game/data/characters .";
+directories="toolkit game game/rendering game/config game/character game/object game/time game/input game/level game/data/characters game/data/objects .";
 file="Makefile";
 sources="";
 objects="";

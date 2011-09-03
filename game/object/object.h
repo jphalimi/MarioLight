@@ -31,6 +31,7 @@ typedef struct sObject {
     SObjectState states[OBJECT_STATES_NB];
     unsigned currentState;
     int lastDirection;
+    int isPlayable;
 } SObject;
 
 SObject *Object_create (const char *name, unsigned nb_sprites,
@@ -62,6 +63,8 @@ SRenderingSurface *Object_getCurrentSprite (const SObject *object);
 void Object_setSpriteDuration (SObject *object, float spriteDuration);
 float Object_getSpriteDuration (const SObject *object);
 
+void Object_resetSpriteDuration (SObject *object);
+
 void Object_setOriginalSpriteDuration (SObject *object, float spriteDuration);
 float Object_getOriginalSpriteDuration (const SObject *object);
 
@@ -87,10 +90,19 @@ void Object_updateSprite (SObject *object, SInput *input, uint32_t elapsedTime);
 void Object_setCurrentState (SObject *object, unsigned currentState);
 unsigned Object_getCurrentState (const SObject *object);
 
+void Object_setUpdatePosHandler (SObject *object, int state, objectState_fct handler);
+void Object_setUpdateSpriteHandler (SObject *object, int state, objectState_fct handler);
+
+void Object_setScheme (SObject *object, int state, unsigned *scheme, unsigned schemeSize);
+
 void Object_switchState (SObject *object, unsigned newState);
 
 void Object_setLastDirection (SObject *object, int value);
 int Object_getLastDirection (const SObject *object);
+
+void Object_enablePlayable (SObject *object);
+void Object_disablePlayable (SObject *object);
+int Object_isPlayable (const SObject *object);
 
 void Object_destroy (SObject *object);
 

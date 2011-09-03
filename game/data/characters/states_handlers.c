@@ -183,6 +183,7 @@ void CS_playerJumpingPos (SCharacter *character, SInput *input, uint32_t elapsed
         character->y = 0;
         Input_disableTrigger(input, INPUT_A);
         if (character->speedX != 0) {
+            Character_resetSpriteDuration(character);
             Character_switchState(character, CHARACTER_ISWALKING);
         } else {
             Character_switchState(character, CHARACTER_ISSTANDING);
