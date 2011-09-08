@@ -36,7 +36,7 @@ SGame *Game_create (void) {
 int Game_launch (SGame *game) {
     SInput input;
 	SCharacter *mario, *koopa;
-    SObject *interr;
+    SObject *interr, *canon;
 	uint32_t time, elapsed;
     int fps = 0;
     uint32_t time_fps, last_fps = 60;
@@ -46,6 +46,7 @@ int Game_launch (SGame *game) {
     mario = Mario_create ();
     koopa = Koopa_create ();
     interr = InterrogationPoint_create ();
+    canon = Canon_create();
 	
     time = time_fps = Time_getTicks();
 	while (!Input_quitRequested(&input)) {
@@ -61,6 +62,7 @@ int Game_launch (SGame *game) {
 			Character_update(mario, &input, elapsed);
             Character_update(koopa, &input, elapsed);
             Object_update(interr, &input, elapsed);
+            Object_update(canon, &input, elapsed);
 			time = Time_getTicks();
             fps++;
             if (Time_getTicks() - time_fps > 1000) {
@@ -87,6 +89,10 @@ int Game_launch (SGame *game) {
                              Object_getX(interr),
                              Object_getY(interr),
                              Object_getCurrentSprite(interr));
+        Rendering_addSurface(game->rendering,
+                             Object_getX(canon),
+                             Object_getY(canon),
+                             Object_getCurrentSprite(canon));
 		Rendering_render (game->rendering);
 		
 		/* Small pause */
@@ -97,6 +103,7 @@ int Game_launch (SGame *game) {
 	Character_destroy(mario);
     Character_destroy(koopa);
     Object_destroy(interr);
+    Object_destroy(canon);
     
     return 0;
 }
