@@ -33,7 +33,7 @@ SObject *InterrogationPoint_create (void) {
 
 SObject *Canon_create (void) {
     //Object_create(<#const char *name#>, <#unsigned int nb_sprites#>, <#const char *sprites_folder#>,<#uint32_t sprite_duration#>, <#float max_speed#>, <#float acceleration#>, <#float speed#>X, <#float speed#>Y)
-    SObject *object = Object_create("Canon", 1, "game/images/canon", 130, 4.27, 0.3, 0.0, 0.0);
+    SObject *object = Object_create("Canon", 1, "game/images/canon", 0, 0, 0, 0.0, 0.0);
     
     /* Standing handling */
     {
@@ -44,6 +44,40 @@ SObject *Canon_create (void) {
     Object_setCurrentState(object, OBJECT_ISSTANDING);
     Object_setX(object, 150);
     Object_setY(object, 0);
+    
+    return object;
+}
+
+SObject *Ground_create (void) {
+    //Object_create(<#const char *name#>, <#unsigned int nb_sprites#>, <#const char *sprites_folder#>,<#uint32_t sprite_duration#>, <#float max_speed#>, <#float acceleration#>, <#float speed#>X, <#float speed#>Y)
+    SObject *object = Object_create("Ground", 1, "game/images/ground", 0, 0, 0, 0.0, 0.0);
+    
+    /* Standing handling */
+    {
+        unsigned scheme[] = {0};
+        Object_setScheme (object, OBJECT_ISSTANDING, scheme, sizeof(scheme) / sizeof(*scheme));
+        Object_setUpdateSpriteHandler(object, OBJECT_ISSTANDING, NULL);
+    }
+    Object_setCurrentState(object, OBJECT_ISSTANDING);
+    Object_setX(object, 0);
+    Object_setY(object, 0);
+    
+    return object;
+}
+
+SObject *Brick_create (void) {
+    //Object_create(<#const char *name#>, <#unsigned int nb_sprites#>, <#const char *sprites_folder#>,<#uint32_t sprite_duration#>, <#float max_speed#>, <#float acceleration#>, <#float speed#>X, <#float speed#>Y)
+    SObject *object = Object_create("Brick", 1, "game/images/brick", 0, 0, 0, 0.0, 0.0);
+    
+    /* Standing handling */
+    {
+        unsigned scheme[] = {0};
+        Object_setScheme (object, OBJECT_ISSTANDING, scheme, sizeof(scheme) / sizeof(*scheme));
+        Object_setUpdateSpriteHandler(object, OBJECT_ISSTANDING, NULL);
+    }
+    Object_setCurrentState(object, OBJECT_ISSTANDING);
+    Object_setX(object, 284);
+    Object_setY(object, 50);
     
     return object;
 }

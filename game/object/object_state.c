@@ -70,8 +70,6 @@ void ObjectState_setScheme (SObjectState *objectState, unsigned *scheme, unsigne
 	assert(objectState->scheme != NULL);
 	memcpy(objectState->scheme, scheme, schemeSize * sizeof(*objectState->scheme));
 	objectState->schemeSize = schemeSize;
-    
-    Log_output(1, "objectState->schemeSize = %u\n", objectState->schemeSize);
 }
 
 unsigned ObjectState_getCurrentScheme (const SObjectState *objectState) {

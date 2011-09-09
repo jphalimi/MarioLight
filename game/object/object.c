@@ -304,7 +304,6 @@ void Object_setUpdateSpriteHandler (SObject *object, int state, objectState_fct 
 void Object_setScheme (SObject *object, int state, unsigned *scheme, unsigned schemeSize) {
 	assert(object != NULL);
 	assert(state < OBJECT_STATES_NB);
-    Log_output (1, "Object schemeSize to be set = %u\n", schemeSize);
 	ObjectState_setScheme(object->states + state, scheme, schemeSize);
 }
 

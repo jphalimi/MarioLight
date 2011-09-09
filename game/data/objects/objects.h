@@ -13,5 +13,7 @@
 
 SObject *InterrogationPoint_create (void);
 SObject *Canon_create (void);
+SObject *Ground_create (void);
+SObject *Brick_create (void);
 
 #endif

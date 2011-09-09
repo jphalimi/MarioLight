@@ -36,7 +36,7 @@ SGame *Game_create (void) {
 int Game_launch (SGame *game) {
     SInput input;
 	SCharacter *mario, *koopa;
-    SObject *interr, *canon;
+    SObject *interr, *canon, *ground, *brick;
 	uint32_t time, elapsed;
     int fps = 0;
     uint32_t time_fps, last_fps = 60;
@@ -47,6 +47,8 @@ int Game_launch (SGame *game) {
     koopa = Koopa_create ();
     interr = InterrogationPoint_create ();
     canon = Canon_create();
+    ground = Ground_create ();
+    brick = Brick_create ();
 	
     time = time_fps = Time_getTicks();
 	while (!Input_quitRequested(&input)) {
@@ -63,6 +65,8 @@ int Game_launch (SGame *game) {
             Character_update(koopa, &input, elapsed);
             Object_update(interr, &input, elapsed);
             Object_update(canon, &input, elapsed);
+            Object_update(ground, &input, elapsed);
+            Object_update(brick, &input, elapsed);
 			time = Time_getTicks();
             fps++;
             if (Time_getTicks() - time_fps > 1000) {
@@ -93,6 +97,14 @@ int Game_launch (SGame *game) {
                              Object_getX(canon),
                              Object_getY(canon),
                              Object_getCurrentSprite(canon));
+        Rendering_addSurface(game->rendering,
+                             Object_getX(ground),
+                             Object_getY(ground),
+                             Object_getCurrentSprite(ground));
+        Rendering_addSurface(game->rendering,
+                             Object_getX(brick),
+                             Object_getY(brick),
+                             Object_getCurrentSprite(brick));
 		Rendering_render (game->rendering);
 		
 		/* Small pause */
@@ -100,10 +112,12 @@ int Game_launch (SGame *game) {
 	}
 	
 	/* Character delete */
-	Character_destroy(mario);
-    Character_destroy(koopa);
-    Object_destroy(interr);
-    Object_destroy(canon);
+	Character_destroy (mario);
+    Character_destroy (koopa);
+    Object_destroy (interr);
+    Object_destroy (canon);
+    Object_destroy (ground);
+    Object_destroy (brick);
     
     return 0;
 }

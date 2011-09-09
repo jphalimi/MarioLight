@@ -22,26 +22,7 @@ SLevel *Level_create (const char *fileName) {
         LevelState_init(level->states+i, i);
     }
     
-    Level_setSourceFile (level, fileName);
-	
-	Level_parseSourceFile (level);
-    
     return level;
-}
-
-void Level_setSourceFile (SLevel *level, const char *fileName) {
-    assert(level != NULL);
-	
-	if (fileName == NULL) { /* User wants the string to be reset */
-		level->sourceFile[0] = '\0';
-	} else { /* Copy the input string in the config struct */
-		strncpy(level->sourceFile, fileName, STRBUF_MAXLEN);
-	}
-}
-
-char const *Level_getSourceFile (const SLevel *level) {
-	assert(level != NULL);
-	return level->sourceFile;
 }
 
 void Level_setCharactersNumbers (SLevel *level, int charactersNumber) {
@@ -54,6 +35,16 @@ int Level_getCharactersNumbers (const SLevel *level) {
 	return level->charactersNumber;
 }
 
+void Level_setObjectsNumber (SLevel *level, int objectsNumber) {
+	assert(level != NULL);
+	level->objectsNumber = objectsNumber;
+}
+
+int Level_getObjectsNumber (const SLevel *level) {
+	assert(level != NULL);
+	return level->objectsNumber;
+}
+
 void Level_switchState (SLevel *level, int newState) {
 	assert(level != NULL);
 	assert(newState < LEVELSTATE_NB);
@@ -63,11 +54,6 @@ void Level_switchState (SLevel *level, int newState) {
 int Level_getCurrentLevelState (const SLevel *level) {
 	assert(level != NULL);
 	return level->currentLevelState;
-}
-
-void Level_parseSourceFile (SLevel *level) {
-	assert(level != NULL);
-	// TODO : everything :)
 }
 
 void Level_destroy (SLevel *level) {
